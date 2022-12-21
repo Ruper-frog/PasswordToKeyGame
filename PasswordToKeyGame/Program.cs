@@ -3,6 +3,7 @@ using System.Configuration;
 using System.Data.OleDb;
 using System.Xml.XPath;
 using System.Threading;
+using System.Reflection.Emit;
 
 namespace PasswordToKeyGame
 {
@@ -15,7 +16,9 @@ namespace PasswordToKeyGame
             OleDbCommand command = new OleDbCommand("", connection);
 
             connection.Open();
-            command.CommandText = $"UPDATE UserNameAndPassword SET Password = 'IGotIt' WHERE ID = 1;";
+            command.CommandText = $"UPDATE UserNameAndPassword SET [Password] = 'IGotIt' WHERE ID = 1";
+
+            command.ExecuteNonQuery();
         }
         static void UserNameAndPasswordInsert()
         {
@@ -82,7 +85,8 @@ namespace PasswordToKeyGame
 
                     Print1 = Print1 + Print;
                 }
-                command.CommandText = $"UPDATE UserNameAndPassword SET Password = '{Print1}' WHERE ID = {j}";
+                command.CommandText = $"UPDATE UserNameAndPassword SET [Password] = '{Print1}' WHERE ID = {j}";
+                command.ExecuteNonQuery();
 
                 Console.WriteLine(Print1);
             }
@@ -227,7 +231,7 @@ namespace PasswordToKeyGame
         }
         static void Main(string[] args)
         {
-            UPDATEtry();
+            UserNameAndPasswordInsert();
         }
     }
 }
