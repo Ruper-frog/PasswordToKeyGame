@@ -4,11 +4,61 @@ using System.Data.OleDb;
 using System.Xml.XPath;
 using System.Threading;
 using System.Reflection.Emit;
+using System.Data;
+
 
 namespace PasswordToKeyGame
 {
     internal class Program
     {
+        static void MainMenu()
+        {
+            string prompt = @"
+                                                        
+  (                                                     
+  )\ ) (   (   (        (  (    (  (     )    )     (   
+ (()/( )(  )\ ))\  (    )\))(   )\))( ( /(   (     ))\  
+  ((_)|()\(()/((_) )\ )((_))\  ((_))\ )(_))  )\  '/((_) 
+  _| | ((_))(_)|_)_(_/( (()(_)  (()(_|(_)_ _((_))(_))   
+/ _` || '_| || | | ' \)) _` |  / _` |/ _` | '  \() -_)  
+\__,_||_|  \_, |_|_||_|\__, |  \__, |\__,_|_|_|_|\___|  
+           |__/        |___/   |___/                    
+";
+            Console.WriteLine(prompt);
+
+            string[] options = { "Register ", "Sign In"};
+            Menu mainMenu = new Menu(options);
+            int selectedIndex = mainMenu.Run();
+            
+
+            switch(selectedIndex)
+            {
+                case 0:
+                    RegisterMenu(); ;
+                    break;
+                case 1:
+                        SignInMenu();
+                    break;
+            }
+        }
+        static void RegisterMenu()
+        {
+
+        }
+        static void SignInMenu()
+        {
+            Console.Clear();
+            Console.Write("pls Enter your User Name --> ");
+
+            string UserName = Console.ReadLine();
+
+            Console.WriteLine();
+
+            Console.Write("pls Enter your Password --> ");
+            string PasswordClient = Console.ReadLine();
+
+            Password(UserName, PasswordClient);
+        }
         static void UPDATEtry()
         {
             string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=""C:\Users\USER\source\repos\Visual Studio\Visual Studio Documents\Access\UserName and Passowrd.accdb""";
@@ -142,20 +192,14 @@ namespace PasswordToKeyGame
                 Console.WriteLine(UserName + " " + Password);
             }
         }
-        static void Password()
+        static void Password(string UserName, string PasswordClient)
         {
-            Console.WriteLine("pls Enter your User Name");
-            string UserName = Console.ReadLine();
-
-            Console.WriteLine("pls Enter your Password");
-            string password = Console.ReadLine();
-
             string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=""C:\Users\USER\source\repos\Visual Studio\Visual Studio Documents\Access\UserName and Passowrd.accdb""";
             OleDbConnection connection = new OleDbConnection(connectionString);
             OleDbCommand command = new OleDbCommand("", connection);
 
             connection.Open();
-            command.CommandText = $"SELECT UserName, Password FROM UserNameAndPassword WHERE UserName = '{UserName}' AND Password = '{password}'";
+            command.CommandText = $"SELECT UserName, Password FROM UserNameAndPassword WHERE UserName = '{UserName}' AND Password = '{PasswordClient}'";
             OleDbDataReader reader = command.ExecuteReader();
 
             bool FoundIt = false;
@@ -165,7 +209,7 @@ namespace PasswordToKeyGame
 
             if (FoundIt)
             {
-                Console.Write("you may enter");
+                Console.Write("\nyou may enter");
 
                 Thread.Sleep(1000);
 
@@ -181,7 +225,7 @@ namespace PasswordToKeyGame
             }
 
             else
-                Console.WriteLine("you've enterd the wrong UserName or Password");
+                Console.WriteLine("\nyou've enterd the wrong UserName or Password");
         }
         static void Paint()
         {
@@ -242,7 +286,7 @@ namespace PasswordToKeyGame
         }
         static void Main(string[] args)
         {
-            INSERTtry();
+            MainMenu();
         }
     }
 }
