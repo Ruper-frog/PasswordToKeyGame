@@ -20,6 +20,17 @@ namespace PasswordToKeyGame
 
             command.ExecuteNonQuery();
         }
+        static void INSERTtry()
+        {
+            string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=""C:\Users\USER\source\repos\Visual Studio\Visual Studio Documents\Access\UserName and Passowrd.accdb""";
+            OleDbConnection connection = new OleDbConnection(connectionString);
+            OleDbCommand command = new OleDbCommand("", connection);
+
+            connection.Open();
+            command.CommandText = $"INSERT INTO UserNameAndPassword ([UserName], [Password]) VALUES ('Noam', 'Boom')";
+
+            command.ExecuteNonQuery();
+        }
         static void UserNameAndPasswordInsert()
         {
             string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=""C:\Users\USER\source\repos\Visual Studio\Visual Studio Documents\Access\UserName and Passowrd.accdb""";
@@ -231,7 +242,7 @@ namespace PasswordToKeyGame
         }
         static void Main(string[] args)
         {
-            UserNameAndPasswordInsert();
+            INSERTtry();
         }
     }
 }
