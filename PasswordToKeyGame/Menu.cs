@@ -47,7 +47,7 @@ namespace PasswordToKeyGame
             ConsoleKey keyPressed;
             do
             {
-                Console.SetCursorPosition(0, 12);
+                Console.SetCursorPosition(0, 13);
 
                 DisplayOptions();
 
