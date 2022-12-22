@@ -5,7 +5,7 @@ using System.Xml.XPath;
 using System.Threading;
 using System.Reflection.Emit;
 using System.Data;
-
+using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace PasswordToKeyGame
 {
@@ -15,6 +15,7 @@ namespace PasswordToKeyGame
         {
             Random random = new Random();
             int Number = random.Next(1, 3);
+            Console.ForegroundColor = ConsoleColor.DarkRed;
             string prompt = @"
 ▓█████▄  ██▀███ ▓██   ██▓ ██▓ ███▄    █   ▄████      ▄████  ▄▄▄       ███▄ ▄███▓▓█████ 
 ▒██▀ ██▌▓██ ▒ ██▒▒██  ██▒▓██▒ ██ ▀█   █  ██▒ ▀█▒    ██▒ ▀█▒▒████▄    ▓██▒▀█▀ ██▒▓█   ▀ 
@@ -29,19 +30,21 @@ namespace PasswordToKeyGame
 ";
             Console.WriteLine(prompt);
 
-            string[] options = { "Register ", "Sign In"};
+            string[] options = { "Register ", "Sign In", "Exit"};
             Menu mainMenu = new Menu(options);
             int selectedIndex = mainMenu.Run();
-            
+
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
             switch(selectedIndex)
             {
                 case 0:
-                    RegisterMenu(); ;
+                    RegisterMenu();
                     break;
                 case 1:
                         SignInMenu();
                     break;
             }
+            return;
         }
         static void RegisterMenu()
         {
@@ -258,7 +261,10 @@ namespace PasswordToKeyGame
             }
 
             else
-                Console.WriteLine("\nyou've enterd the wrong UserName or Password");
+            {
+                Console.ResetColor(); 
+                Console.Write("\nyou've enterd the wrong UserName or Password");
+            }
         }
         static void Paint()
         {
@@ -320,6 +326,10 @@ namespace PasswordToKeyGame
         static void Main(string[] args)
         {
             MainMenu();
+
+            Console.ResetColor();
+
+            Console.WriteLine("\n\nIt was nice to have you with us, come again");
         }
     }
 }
