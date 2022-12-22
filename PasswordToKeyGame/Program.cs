@@ -43,7 +43,38 @@ namespace PasswordToKeyGame
         }
         static void RegisterMenu()
         {
+            Console.Clear();
+            Console.Write("ple enter your user name --> ");
 
+            string NewUserName = Console.ReadLine();
+
+            Console.WriteLine();
+
+            Console.Write("pls enter your password --> ");
+            string NewPassword = Console.ReadLine();
+
+            string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=""C:\Users\USER\source\repos\Visual Studio\Visual Studio Documents\Access\UserName and Passowrd.accdb""";
+            OleDbConnection connection = new OleDbConnection(connectionString);
+            OleDbCommand command = new OleDbCommand("", connection);
+
+            connection.Open();
+            command.CommandText = $"INSERT INTO UserNameAndPassword ([UserName], [Password]) VALUES ('{NewUserName}', '{NewPassword}')";
+
+            command.ExecuteNonQuery();
+
+            Console.Write("You've Registered successfully");
+
+            Thread.Sleep(1000);
+
+            for (int k = 0; k < 3; k++)
+            {
+                Console.Write(".");
+                Thread.Sleep(1000);
+            }
+
+            Console.Clear();
+
+            MainMenu();
         }
         static void SignInMenu()
         {
