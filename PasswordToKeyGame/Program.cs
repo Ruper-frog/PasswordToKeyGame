@@ -245,7 +245,7 @@ namespace PasswordToKeyGame
 
             if (FoundIt)
             {
-                Console.Write("\nyou may enter");
+                Console.Write("you may enter");
 
                 Thread.Sleep(1000);
 
@@ -257,14 +257,17 @@ namespace PasswordToKeyGame
 
                 Console.Clear();
 
+                Console.ResetColor();
+
                 Paint();
             }
 
             else
             {
-                Console.ResetColor(); 
-                Console.Write("\nyou've enterd the wrong UserName or Password");
+                Console.Write("you've enterd the wrong UserName or Password");
+                Thread.Sleep(3000);
             }
+
         }
         static void Paint()
         {
@@ -327,9 +330,12 @@ namespace PasswordToKeyGame
         {
             MainMenu();
 
-            Console.ResetColor();
+            Console.Clear();
 
-            Console.WriteLine("\n\nIt was nice to have you with us, come again");
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+
+            Console.WriteLine("It was nice to have you with us, come again");
+            Console.ResetColor();
         }
     }
 }
