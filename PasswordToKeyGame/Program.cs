@@ -117,7 +117,7 @@ namespace PasswordToKeyGame
 
             command.ExecuteNonQuery();
         }
-        static void UserNameAndPasswordInsert()
+        static void UserNameAndPasswordMakingSomePasswords()
         {
             string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=""C:\Users\USER\source\repos\Visual Studio\Visual Studio Documents\Access\UserName and Passowrd.accdb""";
             OleDbConnection connection = new OleDbConnection(connectionString);
