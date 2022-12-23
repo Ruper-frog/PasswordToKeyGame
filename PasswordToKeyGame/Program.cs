@@ -47,6 +47,8 @@ namespace PasswordToKeyGame
         }
         static void RegisterMenu()
         {
+            bool FoundIt = false;
+
             Console.Clear();
             Console.Write("ple enter your user name --> ");
 
@@ -57,14 +59,7 @@ namespace PasswordToKeyGame
             Console.Write("pls enter your password --> ");
             string NewPassword = Console.ReadLine();
 
-            string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=""C:\Users\USER\source\repos\Visual Studio\Visual Studio Documents\Access\UserName and Passowrd.accdb""";
-            OleDbConnection connection = new OleDbConnection(connectionString);
-            OleDbCommand command = new OleDbCommand("", connection);
-
-            connection.Open();
-            command.CommandText = $"INSERT INTO UserNameAndPassword ([UserName], [Password]) VALUES ('{NewUserName}', '{NewPassword}')";
-
-            command.ExecuteNonQuery();
+            ACCDB_Type_File($"INSERT INTO UserNameAndPassword ([UserName], [Password]) VALUES ('{NewUserName}', '{NewPassword}')", false, ref FoundIt);
 
             Console.Write("You've Registered successfully");
 
