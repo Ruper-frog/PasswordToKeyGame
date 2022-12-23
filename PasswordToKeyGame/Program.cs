@@ -7,6 +7,7 @@ using System.Reflection.Emit;
 using System.Data;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Runtime.Remoting.Lifetime;
+using System.Media;
 
 namespace PasswordToKeyGame
 {
@@ -380,6 +381,9 @@ namespace PasswordToKeyGame
         }
         static void Main(string[] args)
         {
+            SoundPlayer AngryBirds = new SoundPlayer(soundLocation: @"C:\Users\USER\source\repos\Visual Studio\Visual Studio Documents\Audio\Angry Birds Theme Song.wav");
+            AngryBirds.PlayLooping();
+
             MainMenu();
 
             Console.Clear();
