@@ -22,22 +22,19 @@ namespace PasswordToKeyGame
             for (int i = 0; i < Options.Length; i++)
             {
                 string currentOption = Options[i];
-                string prefix;
 
                 if (i == SelectedIndex)
                 {
-                    prefix = "*";
                     ForegroundColor = ConsoleColor.Black;
                     BackgroundColor = ConsoleColor.White;
                 }
                 else
                 {
-                    prefix = " ";
                     ForegroundColor = ConsoleColor.White;
                     BackgroundColor = ConsoleColor.Black; 
                 }
 
-                WriteLine($"{prefix} << {currentOption} >>");
+                WriteLine($"<< {currentOption} >>");
             }
             ResetColor();
         }
