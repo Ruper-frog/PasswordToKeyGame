@@ -6,6 +6,7 @@ using System.Threading;
 using System.Reflection.Emit;
 using System.Data;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Runtime.Remoting.Lifetime;
 
 namespace PasswordToKeyGame
 {
@@ -13,8 +14,6 @@ namespace PasswordToKeyGame
     {
         static void MainMenu()
         {
-            Random random = new Random();
-            int Number = random.Next(1, 3);
             Console.ForegroundColor = ConsoleColor.DarkRed;
             string prompt = @"
 ▓█████▄  ██▀███   ▄▄▄       █     █░ ██▓ ███▄    █   ▄████      ▄████  ▄▄▄       ███▄ ▄███▓▓█████ 
@@ -41,7 +40,7 @@ namespace PasswordToKeyGame
                     RegisterMenu();
                     break;
                 case 1:
-                    SignInMenu();
+                    SignInMenu(0, 0, "");
                     break;
             }
             return;
@@ -81,19 +80,75 @@ namespace PasswordToKeyGame
 
             MainMenu();
         }
-        static void SignInMenu()
+        static void SignInMenu(int NumberOfTimesHeGotTheUserNameWrong, int NumberOfTimesHeGotThePasswordWrong, string UserName)
         {
+            string UserNameString = "pls Enter your User Name --> ";
+
+            if (NumberOfTimesHeGotThePasswordWrong == 0)
+            {
+                Console.Clear();
+
+                Console.Write(UserNameString + "\t\t\t\t\t\t\t\t\t\t");
+
+                Console.SetCursorPosition(UserNameString.Length, 0);
+
+                UserName = Console.ReadLine();
+
+                if (UserNameClient(UserName) == false)
+                {
+                    NumberOfTimesHeGotTheUserNameWrong++;
+                    if (NumberOfTimesHeGotTheUserNameWrong != 4)
+                        SignInMenu(NumberOfTimesHeGotTheUserNameWrong, NumberOfTimesHeGotThePasswordWrong, UserName);
+                    else
+                    {
+                        Console.WriteLine("\nyou've tried to meny times pls go register first");
+                        Thread.Sleep(4000);
+
+                        Console.Clear();
+                        MainMenu();
+                    }
+                }
+            }
+
             Console.Clear();
-            Console.Write("pls Enter your User Name --> ");
 
-            string UserName = Console.ReadLine();
+            Console.WriteLine(UserNameString + UserName);
 
-            Console.WriteLine();
+            Console.Write("\npls Enter your Password --> \t\t\t\t\t\t\t\t\t\t");
+            Console.SetCursorPosition(28, 2);
 
-            Console.Write("pls Enter your Password --> ");
             string PasswordClient = Console.ReadLine();
 
-            Password(UserName, PasswordClient);
+            if (Password(UserName, PasswordClient) == false)
+            {
+                NumberOfTimesHeGotThePasswordWrong++;
+
+                if (NumberOfTimesHeGotThePasswordWrong != 4)
+                    SignInMenu(NumberOfTimesHeGotThePasswordWrong, NumberOfTimesHeGotThePasswordWrong, UserName);
+                else
+                {
+                    Console.WriteLine("\nyou've tried to meny times pls go Update your Password");
+                    Thread.Sleep(4000);
+
+                    Console.Clear();
+                    UpdateMenu(UserName);
+                }
+            }
+        }
+        static void UpdateMenu(string UserName)
+        {
+            bool FoundIt = false;
+
+            Console.Write("pls Enter your new password --> ");
+            string NewPassword = Console.ReadLine();
+
+            ACCDB_Type_File($"UPDATE UserNameAndPassword SET [Password] = '{NewPassword}' WHERE UserName = '{UserName}'", false, ref FoundIt);
+
+            Console.WriteLine("your Pass word was reset");
+            Thread.Sleep(3000);
+
+            Console.Clear();
+            MainMenu();
         }
         static void UPDATEtry()
         {
@@ -207,41 +262,43 @@ namespace PasswordToKeyGame
                 Console.WriteLine(country);
             }
         } 
-        static void ACCDB_Type_File()
+        static void ACCDB_Type_File(string CommandText, bool ReadOrNot, ref bool FoundIt)
         {
             string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=""C:\Users\USER\source\repos\Visual Studio\Visual Studio Documents\Access\UserName and Passowrd.accdb""";
             OleDbConnection connection = new OleDbConnection(connectionString);
             OleDbCommand command = new OleDbCommand("", connection);
 
             connection.Open();
-            command.CommandText = "SELECT UserName, Password FROM UserNameAndPassword";
-            OleDbDataReader reader = command.ExecuteReader();
+            command.CommandText = CommandText;
 
-            string UserName, Password;
-
-            while (reader.Read())
+            if (ReadOrNot)
             {
-                UserName = reader.GetString(0);
+                OleDbDataReader reader = command.ExecuteReader();
 
-                Password = reader.GetString(1);
-
-                Console.WriteLine(UserName + " " + Password);
+                while (reader.Read())
+                    FoundIt = true;
             }
+            else
+                command.ExecuteNonQuery();
         }
-        static void Password(string UserName, string PasswordClient)
+        static bool UserNameClient(string UserName)
         {
-            string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=""C:\Users\USER\source\repos\Visual Studio\Visual Studio Documents\Access\UserName and Passowrd.accdb""";
-            OleDbConnection connection = new OleDbConnection(connectionString);
-            OleDbCommand command = new OleDbCommand("", connection);
+            bool FoundIt = false;
+            ACCDB_Type_File($"SELECT UserName FROM UserNameAndPassword WHERE UserName = '{UserName}'", true, ref FoundIt);
 
-            connection.Open();
-            command.CommandText = $"SELECT UserName, Password FROM UserNameAndPassword WHERE UserName = '{UserName}' AND Password = '{PasswordClient}'";
-            OleDbDataReader reader = command.ExecuteReader();
-
+            if (!FoundIt)
+            {
+                Console.Write("you've enterd the wrong UserName");
+                Thread.Sleep(1000);
+            }
+            
+            return FoundIt;
+        }
+        static bool Password(string UserName, string PasswordClient)
+        {
             bool FoundIt = false;
 
-            while (reader.Read())
-                FoundIt = true;
+            ACCDB_Type_File($"SELECT UserName, Password FROM UserNameAndPassword WHERE UserName = '{UserName}' AND Password = '{PasswordClient}'", true, ref FoundIt);
 
             if (FoundIt)
             {
@@ -264,10 +321,10 @@ namespace PasswordToKeyGame
 
             else
             {
-                Console.Write("you've enterd the wrong UserName or Password");
-                Thread.Sleep(3000);
+                Console.Write("you've enterd the wrong Password");
+                Thread.Sleep(1000);
             }
-
+            return FoundIt;
         }
         static void Paint()
         {
