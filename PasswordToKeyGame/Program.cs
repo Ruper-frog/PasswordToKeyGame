@@ -15,6 +15,8 @@ namespace PasswordToKeyGame
     {
         static void MainMenu()
         {
+            Console.Clear();
+
             Console.ForegroundColor = ConsoleColor.DarkRed;
             string prompt = @"
 ▓█████▄  ██▀███   ▄▄▄       █     █░ ██▓ ███▄    █   ▄████      ▄████  ▄▄▄       ███▄ ▄███▓▓█████ 
@@ -34,7 +36,6 @@ namespace PasswordToKeyGame
             Menu mainMenu = new Menu(options);
             int selectedIndex = mainMenu.Run();
 
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
             switch(selectedIndex)
             {
                 case 0:
@@ -51,6 +52,26 @@ namespace PasswordToKeyGame
             bool FoundIt = false;
 
             Console.Clear();
+
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+
+            Console.Write(@"
+██████╗ ███████╗ ██████╗ ██╗███████╗████████╗███████╗██████╗ 
+██╔══██╗██╔════╝██╔════╝ ██║██╔════╝╚══██╔══╝██╔════╝██╔══██╗
+██████╔╝█████╗  ██║  ███╗██║███████╗   ██║   █████╗  ██████╔╝
+██╔══██╗██╔══╝  ██║   ██║██║╚════██║   ██║   ██╔══╝  ██╔══██╗
+██║  ██║███████╗╚██████╔╝██║███████║   ██║   ███████╗██║  ██║
+╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚═╝╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═╝
+                                                             
+                                                             
+                                                             
+                                                             
+                                                             
+                                                             
+                                                             
+                                                             
+");
+
             Console.Write("ple enter your user name --> ");
 
             string NewUserName = Console.ReadLine();
@@ -78,72 +99,113 @@ namespace PasswordToKeyGame
         }
         static void SignInMenu(int NumberOfTimesHeGotTheUserNameWrong, int NumberOfTimesHeGotThePasswordWrong, string UserName)
         {
+            Console.Clear();
+
             string UserNameString = "pls Enter your User Name --> ";
+
+            Console.ForegroundColor = ConsoleColor.DarkBlue;
+
+            Console.WriteLine(@"
+███████╗██╗ ██████╗ ███╗   ██╗    ██╗███╗   ██╗
+██╔════╝██║██╔════╝ ████╗  ██║    ██║████╗  ██║
+███████╗██║██║  ███╗██╔██╗ ██║    ██║██╔██╗ ██║
+╚════██║██║██║   ██║██║╚██╗██║    ██║██║╚██╗██║
+███████║██║╚██████╔╝██║ ╚████║    ██║██║ ╚████║
+╚══════╝╚═╝ ╚═════╝ ╚═╝  ╚═══╝    ╚═╝╚═╝  ╚═══╝
+                                               
+                                               
+                                               
+                                               
+                                               
+                                               
+                                               
+                                               
+");
 
             if (NumberOfTimesHeGotThePasswordWrong == 0)
             {
-                Console.Clear();
-
-                Console.Write(UserNameString + "\t\t\t\t\t\t\t\t\t\t");
-
-                Console.SetCursorPosition(UserNameString.Length, 0);
-
-                UserName = Console.ReadLine();
-
-                if (UserNameClient(UserName) == false)
+                while (NumberOfTimesHeGotTheUserNameWrong != 5)
                 {
-                    NumberOfTimesHeGotTheUserNameWrong++;
-                    if (NumberOfTimesHeGotTheUserNameWrong != 4)
-                        SignInMenu(NumberOfTimesHeGotTheUserNameWrong, NumberOfTimesHeGotThePasswordWrong, UserName);
-                    else
+                    if (NumberOfTimesHeGotTheUserNameWrong == 4)
                     {
                         Console.WriteLine("\nyou've tried to meny times pls go register first");
                         Thread.Sleep(4000);
 
-                        Console.Clear();
-                        MainMenu();
+                        RegisterMenu();
+                        break;
                     }
+                    Console.SetCursorPosition(0, 16);
+
+                    Console.Write(UserNameString + "\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t");
+
+                    Console.SetCursorPosition(UserNameString.Length, 16);
+
+                    UserName = Console.ReadLine();
+
+                    if (UserNameClient(UserName) == false)
+                        NumberOfTimesHeGotTheUserNameWrong++;
+                    else
+                        break;
                 }
             }
-
-            Console.Clear();
-
-            Console.WriteLine(UserNameString + UserName);
-
-            Console.Write("\npls Enter your Password --> \t\t\t\t\t\t\t\t\t\t");
-            Console.SetCursorPosition(28, 2);
-
-            string PasswordClient = Console.ReadLine();
-
-            if (Password(UserName, PasswordClient) == false)
+            while (NumberOfTimesHeGotThePasswordWrong != 5)
             {
-                NumberOfTimesHeGotThePasswordWrong++;
-
-                if (NumberOfTimesHeGotThePasswordWrong != 4)
-                    SignInMenu(NumberOfTimesHeGotThePasswordWrong, NumberOfTimesHeGotThePasswordWrong, UserName);
-                else
+                if (NumberOfTimesHeGotThePasswordWrong == 4)
                 {
                     Console.WriteLine("\nyou've tried to meny times pls go Update your Password");
                     Thread.Sleep(4000);
 
-                    Console.Clear();
                     UpdateMenu(UserName);
+                    break;
                 }
+                Console.SetCursorPosition(0, 18);
+
+                Console.Write("pls Enter your Password --> \t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t");
+
+                Console.SetCursorPosition(28, 18);
+
+                string PasswordClient = Console.ReadLine();
+
+                if (Password(UserName, PasswordClient) == false)
+                    NumberOfTimesHeGotThePasswordWrong++;
+                else
+                    break;
+
             }
         }
         static void UpdateMenu(string UserName)
         {
+            Console.Clear(); 
+
             bool FoundIt = false;
+
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+
+            Console.WriteLine(@"
+██╗   ██╗██████╗ ██████╗  █████╗ ████████╗███████╗  ██████╗  █████╗ ███████╗███████╗██╗    ██╗ ██████╗ ██████╗ ██████╗ 
+██║   ██║██╔══██╗██╔══██╗██╔══██╗╚══██╔══╝██╔════╝  ██╔══██╗██╔══██╗██╔════╝██╔════╝██║    ██║██╔═══██╗██╔══██╗██╔══██╗
+██║   ██║██████╔╝██║  ██║███████║   ██║   █████╗    ██████╔╝███████║███████╗███████╗██║ █╗ ██║██║   ██║██████╔╝██║  ██║
+██║   ██║██╔═══╝ ██║  ██║██╔══██║   ██║   ██╔══╝    ██╔═══╝ ██╔══██║╚════██║╚════██║██║███╗██║██║   ██║██╔══██╗██║  ██║
+╚██████╔╝██║     ██████╔╝██║  ██║   ██║   ███████╗  ██║     ██║  ██║███████║███████║╚███╔███╔╝╚██████╔╝██║  ██║██████╔╝
+ ╚═════╝ ╚═╝     ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚══════╝  ╚═╝     ╚═╝  ╚═╝╚══════╝╚══════╝ ╚══╝╚══╝  ╚═════╝ ╚═╝  ╚═╝╚═════╝ 
+                                                                                                                         
+                                                                                                                         
+                                                                                                                         
+                                                                                                                         
+                                                                                                                         
+                                                                                                                         
+                                                                                                                         
+                                                                                                                         
+");
 
             Console.Write("pls Enter your new password --> ");
             string NewPassword = Console.ReadLine();
 
             ACCDB_Type_File($"UPDATE UserNameAndPassword SET [Password] = '{NewPassword}' WHERE UserName = '{UserName}'", false, ref FoundIt);
 
-            Console.WriteLine("your Pass word was reset");
+            Console.WriteLine("your Password was reset");
             Thread.Sleep(3000);
 
-            Console.Clear();
             MainMenu();
         }
         static void UPDATEtry()
@@ -381,6 +443,8 @@ namespace PasswordToKeyGame
         }
         static void Main(string[] args)
         {
+            UpdateMenu("Ruper");
+
             SoundPlayer AngryBirds = new SoundPlayer(soundLocation: @"C:\Users\USER\source\repos\Visual Studio\Visual Studio Documents\Audio\Angry Birds Theme Song.wav");
             AngryBirds.PlayLooping();
 
