@@ -443,8 +443,6 @@ namespace PasswordToKeyGame
         }
         static void Main(string[] args)
         {
-            UpdateMenu("Ruper");
-
             SoundPlayer AngryBirds = new SoundPlayer(soundLocation: @"C:\Users\USER\source\repos\Visual Studio\Visual Studio Documents\Audio\Angry Birds Theme Song.wav");
             AngryBirds.PlayLooping();
 
