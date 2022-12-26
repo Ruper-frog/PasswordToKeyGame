@@ -17,7 +17,7 @@ namespace PasswordToKeyGame
         {
             Console.Clear();
 
-            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
             string prompt = @"
 ▓█████▄  ██▀███   ▄▄▄       █     █░ ██▓ ███▄    █   ▄████      ▄████  ▄▄▄       ███▄ ▄███▓▓█████ 
 ▒██▀ ██▌▓██ ▒ ██▒▒████▄    ▓█░ █ ░█░▓██▒ ██ ▀█   █  ██▒ ▀█▒    ██▒ ▀█▒▒████▄    ▓██▒▀█▀ ██▒▓█   ▀ 
@@ -450,9 +450,9 @@ namespace PasswordToKeyGame
 
             Console.Clear();
 
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
 
-            Console.WriteLine("It was nice to have you with us, come again");
+            Console.WriteLine("It was nice to have you with us, come again\n");
             Console.ResetColor();
         }
     }
