@@ -452,7 +452,7 @@ namespace PasswordToKeyGame
 
             Console.ForegroundColor = ConsoleColor.DarkYellow;
 
-            Console.WriteLine("It was nice to have you with us, come again\n");
+            Console.WriteLine("It was nice to have you with us, come again");
             Console.ResetColor();
         }
     }
