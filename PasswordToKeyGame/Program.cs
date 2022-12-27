@@ -1,18 +1,433 @@
 ﻿using System;
-using System.Configuration;
 using System.Data.OleDb;
-using System.Xml.XPath;
-using System.Threading;
-using System.Reflection.Emit;
-using System.Data;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Runtime.Remoting.Lifetime;
 using System.Media;
+using System.Threading;
+using System.Collections;
 
 namespace PasswordToKeyGame
 {
     internal class Program
     {
+        public static string ToPush;
+
+        public static Stack Backwards = new Stack();
+        public static Stack Forward = new Stack();
+
+        static void KeyBoard(ref string ReadLine, ref bool Left, ref bool Right, int x, int y)
+        {
+            bool Shift = false, CapsLock;
+
+            ConsoleKey keyPressed;
+            do
+            {
+                ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+                keyPressed = keyInfo.Key;
+
+                CapsLock = Console.CapsLock;
+
+                if (keyPressed == ConsoleKey.RightArrow)
+                {
+                    ToPush = Convert.ToString(Forward.Pop());
+                    Right = true;
+                }
+
+                else if (keyPressed == ConsoleKey.LeftArrow)
+                {
+                    ToPush = Convert.ToString(Backwards.Pop());
+                    Left = true;
+                }
+
+                if (Left || Right)
+                    StackFunction(Left, Right, ToPush);
+
+                else if (keyPressed == ConsoleKey.Backspace)
+                {
+                    ReadLine = ReadLine.Substring(0, ReadLine.Length - 1);
+
+                    Console.SetCursorPosition(x, y);
+
+                    Console.Write(ReadLine + " ");
+
+                    Console.SetCursorPosition(x + ReadLine.Length, y);
+                }
+                else if (keyPressed == ConsoleKey.Spacebar)
+                {
+                    ReadLine += " ";
+
+                    Console.Write(" ");
+                }
+
+                if ((keyInfo.Modifiers & ConsoleModifiers.Shift) != 0)
+                    Shift = true;
+
+                if (!Shift && !CapsLock || Shift && CapsLock)
+                {
+                    switch (keyPressed)
+                    {
+                        case ConsoleKey.A:
+                            {
+                                Console.Write("a");
+                                ReadLine += "a";
+                            }
+                            break;
+                        case ConsoleKey.B:
+                            {
+                                Console.Write("b");
+                                ReadLine += "b";
+                            }
+                            break;
+                        case ConsoleKey.C:
+                            {
+                                Console.Write("c");
+                                ReadLine += "c";
+                            }
+                            break;
+                        case ConsoleKey.D:
+                            {
+                                Console.Write("d");
+                                ReadLine += "d";
+                            }
+                            break;
+                        case ConsoleKey.E:
+                            {
+                                Console.Write("e");
+                                ReadLine += "e";
+                            }
+                            break;
+                        case ConsoleKey.F:
+                            {
+                                Console.Write("f");
+                                ReadLine += "f";
+                            }
+                            break;
+                        case ConsoleKey.G:
+                            {
+                                Console.Write("g");
+                                ReadLine += "g";
+                            }
+                            break;
+                        case ConsoleKey.H:
+                            {
+                                Console.Write("h");
+                                ReadLine += "h";
+                            }
+                            break;
+                        case ConsoleKey.I:
+                            {
+                                Console.Write("i");
+                                ReadLine += "i";
+                            }
+                            break;
+                        case ConsoleKey.J:
+                            {
+                                Console.Write("j");
+                                ReadLine += "j";
+                            }
+                            break;
+                        case ConsoleKey.K:
+                            {
+                                Console.Write("k");
+                                ReadLine += "k";
+                            }
+                            break;
+                        case ConsoleKey.L:
+                            {
+                                Console.Write("l");
+                                ReadLine += "l";
+                            }
+                            break;
+                        case ConsoleKey.M:
+                            {
+                                Console.Write("m");
+                                ReadLine += "m";
+                            }
+                            break;
+                        case ConsoleKey.N:
+                            {
+                                Console.Write("n");
+                                ReadLine += "n";
+                            }
+                            break;
+                        case ConsoleKey.O:
+                            {
+                                Console.Write("o");
+                                ReadLine += "o";
+                            }
+                            break;
+                        case ConsoleKey.P:
+                            {
+                                Console.Write("p");
+                                ReadLine += "p";
+                            }
+                            break;
+                        case ConsoleKey.Q:
+                            {
+                                Console.Write("q");
+                                ReadLine += "q";
+                            }
+                            break;
+                        case ConsoleKey.R:
+                            {
+                                Console.Write("r");
+                                ReadLine += "r";
+                            }
+                            break;
+                        case ConsoleKey.S:
+                            {
+                                Console.Write("s");
+                                ReadLine += "s";
+                            }
+                            break;
+                        case ConsoleKey.T:
+                            {
+                                Console.Write("t");
+                                ReadLine += "t";
+                            }
+                            break;
+                        case ConsoleKey.U:
+                            {
+                                Console.Write("u");
+                                ReadLine += "u";
+                            }
+                            break;
+                        case ConsoleKey.V:
+                            {
+                                Console.Write("v");
+                                ReadLine += "v";
+                            }
+                            break;
+                        case ConsoleKey.W:
+                            {
+                                Console.Write("w");
+                                ReadLine += "w";
+                            }
+                            break;
+                        case ConsoleKey.X:
+                            {
+                                Console.Write("x");
+                                ReadLine += "x";
+                            }
+                            break;
+                        case ConsoleKey.Y:
+                            {
+                                Console.Write("y");
+                                ReadLine += "y";
+                            }
+                            break;
+                        case ConsoleKey.Z:
+                            {
+                                Console.Write("z");
+                                ReadLine += "z";
+                            }
+                            break;
+                        case ConsoleKey.LeftArrow:
+                            Left = true;
+                            break;
+                        case ConsoleKey.RightArrow:
+                            Right = true;
+                            break;
+                    }
+                }
+                if (CapsLock && !Shift || Shift && !CapsLock)
+                {
+                    switch (keyPressed)
+                    {
+                        case ConsoleKey.A:
+                            {
+                                Console.Write("A");
+                                ReadLine += "A";
+                            }
+                            break;
+                        case ConsoleKey.B:
+                            {
+                                Console.Write("B");
+                                ReadLine += "B";
+                            }
+                            break;
+                        case ConsoleKey.C:
+                            {
+                                Console.Write("C");
+                                ReadLine += "C";
+                            }
+                            break;
+                        case ConsoleKey.D:
+                            {
+                                Console.Write("D");
+                                ReadLine += "D";
+                            }
+                            break;
+                        case ConsoleKey.E:
+                            {
+                                Console.Write("E");
+                                ReadLine += "E";
+                            }
+                            break;
+                        case ConsoleKey.F:
+                            {
+                                Console.Write("F");
+                                ReadLine += "F";
+                            }
+                            break;
+                        case ConsoleKey.G:
+                            {
+                                Console.Write("G");
+                                ReadLine += "G";
+                            }
+                            break;
+                        case ConsoleKey.H:
+                            {
+                                Console.Write("H");
+                                ReadLine += "H";
+                            }
+                            break;
+                        case ConsoleKey.I:
+                            {
+                                Console.Write("I");
+                                ReadLine += "I";
+                            }
+                            break;
+                        case ConsoleKey.J:
+                            {
+                                Console.Write("J");
+                                ReadLine += "J";
+                            }
+                            break;
+                        case ConsoleKey.K:
+                            {
+                                Console.Write("K");
+                                ReadLine += "K";
+                            }
+                            break;
+                        case ConsoleKey.L:
+                            {
+                                Console.Write("L");
+                                ReadLine += "L";
+                            }
+                            break;
+                        case ConsoleKey.M:
+                            {
+                                Console.Write("M");
+                                ReadLine += "M";
+                            }
+                            break;
+                        case ConsoleKey.N:
+                            {
+                                Console.Write("N");
+                                ReadLine += "N";
+                            }
+                            break;
+                        case ConsoleKey.O:
+                            {
+                                Console.Write("O");
+                                ReadLine += "O";
+                            }
+                            break;
+                        case ConsoleKey.P:
+                            {
+                                Console.Write("P");
+                                ReadLine += "P";
+                            }
+                            break;
+                        case ConsoleKey.Q:
+                            {
+                                Console.Write("Q");
+                                ReadLine += "Q";
+                            }
+                            break;
+                        case ConsoleKey.R:
+                            {
+                                Console.Write("R");
+                                ReadLine += "R";
+                            }
+                            break;
+                        case ConsoleKey.S:
+                            {
+                                Console.Write("S");
+                                ReadLine += "S";
+                            }
+                            break;
+                        case ConsoleKey.T:
+                            {
+                                Console.Write("T");
+                                ReadLine += "T";
+                            }
+                            break;
+                        case ConsoleKey.U:
+                            {
+                                Console.Write("U");
+                                ReadLine += "U";
+                            }
+                            break;
+                        case ConsoleKey.V:
+                            {
+                                Console.Write("V");
+                                ReadLine += "V";
+                            }
+                            break;
+                        case ConsoleKey.W:
+                            {
+                                Console.Write("W");
+                                ReadLine += "W";
+                            }
+                            break;
+                        case ConsoleKey.X:
+                            {
+                                Console.Write("X");
+                                ReadLine += "X";
+                            }
+                            break;
+                        case ConsoleKey.Y:
+                            {
+                                Console.Write("Y");
+                                ReadLine += "Y";
+                            }
+                            break;
+                        case ConsoleKey.Z:
+                            {
+                                Console.Write("Z");
+                                ReadLine += "Z";
+                            }
+                            break;
+                        case ConsoleKey.LeftArrow:
+                            Left = true;
+                            break;
+                        case ConsoleKey.RightArrow:
+                            Right = true;
+                            break;
+                    }
+
+                }
+                Shift = false;
+            } while (keyPressed != ConsoleKey.Enter && keyPressed != ConsoleKey.LeftArrow && keyPressed != ConsoleKey.RightArrow);
+        }
+        static void StackFunction(bool Left, bool Right, string FuncionName)
+        {
+
+
+            if (!Right || !Left)
+                Backwards.Push(FuncionName);
+
+            if (Left)
+            {
+                ToPush  = Convert.ToString(Backwards.Pop());
+
+                switch(ToPush)
+                {
+                    case "MainMenu":
+                        MainMenu();
+                        break;
+                    case "RegisterMenu":
+                        RegisterMenu();
+                        break;
+                    case "SignInMenu":
+                        SignInMenu(0, 0, "");
+                        break;
+                }
+
+                Forward.Push(ToPush);
+            }
+
+        }
         static void MainMenu()
         {
             Console.Clear();
@@ -32,24 +447,32 @@ namespace PasswordToKeyGame
 ";
             Console.WriteLine(prompt);
 
-            string[] options = { "Register ", "Sign In", "Exit"};
+            string[] options = { "Register ", "Sign In", "Exit" };
             Menu mainMenu = new Menu(options);
             int selectedIndex = mainMenu.Run();
 
-            switch(selectedIndex)
+            switch (selectedIndex)
             {
                 case 0:
-                    RegisterMenu();
+                    {
+                        StackFunction(false, false, "MainMenu");
+                        RegisterMenu();
+                    }
                     break;
                 case 1:
-                    SignInMenu(0, 0, "");
+                    {
+                        StackFunction(false, false, "MainMenu");
+                        SignInMenu(0, 0, "");
+                    }
                     break;
             }
             return;
         }
         static void RegisterMenu()
         {
-            bool FoundIt = false;
+            bool FoundIt = false, Left = false, Right = false;
+
+            string UserNameString = "ple enter your user name --> ", PasswordString = "pls enter your password --> ";
 
             Console.Clear();
 
@@ -72,18 +495,21 @@ namespace PasswordToKeyGame
                                                              
 ");
 
-            Console.Write("ple enter your user name --> ");
+            Console.Write(UserNameString);
 
-            string NewUserName = Console.ReadLine();
+            string NewUserName = "";
+            KeyBoard(ref NewUserName, ref Left, ref Right, UserNameString.Length, 15);
 
-            Console.WriteLine();
+            Console.WriteLine("\n");
 
-            Console.Write("pls enter your password --> ");
-            string NewPassword = Console.ReadLine();
+            Console.Write(PasswordString);
+
+            string NewPassword = "";
+            KeyBoard(ref NewPassword, ref Left, ref Right, PasswordString.Length, 17);
 
             ACCDB_Type_File($"INSERT INTO UserNameAndPassword ([UserName], [Password]) VALUES ('{NewUserName}', '{NewPassword}')", false, ref FoundIt);
 
-            Console.Write("You've Registered successfully");
+            Console.Write("\nYou've Registered successfully");
 
             Thread.Sleep(1000);
 
@@ -175,7 +601,7 @@ namespace PasswordToKeyGame
         }
         static void UpdateMenu(string UserName)
         {
-            Console.Clear(); 
+            Console.Clear();
 
             bool FoundIt = false;
 
@@ -319,7 +745,7 @@ namespace PasswordToKeyGame
 
                 Console.WriteLine(country);
             }
-        } 
+        }
         static void ACCDB_Type_File(string CommandText, bool ReadOrNot, ref bool FoundIt)
         {
             string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=""C:\Users\USER\source\repos\Visual Studio\Visual Studio Documents\Access\UserName and Passowrd.accdb""";
@@ -347,9 +773,9 @@ namespace PasswordToKeyGame
             if (!FoundIt)
             {
                 Console.Write("you've enterd the wrong UserName");
-                Thread.Sleep(1000);
+                Thread.Sleep(2000);
             }
-            
+
             return FoundIt;
         }
         static bool Password(string UserName, string PasswordClient)
@@ -380,7 +806,7 @@ namespace PasswordToKeyGame
             else
             {
                 Console.Write("you've enterd the wrong Password");
-                Thread.Sleep(1000);
+                Thread.Sleep(2000);
             }
             return FoundIt;
         }
@@ -443,8 +869,8 @@ namespace PasswordToKeyGame
         }
         static void Main(string[] args)
         {
-            SoundPlayer AngryBirds = new SoundPlayer(soundLocation: @"C:\Users\USER\source\repos\Visual Studio\Visual Studio Documents\Audio\Angry Birds Theme Song.wav");
-            AngryBirds.PlayLooping();
+            //SoundPlayer AngryBirds = new SoundPlayer(soundLocation: @"C:\Users\USER\source\repos\Visual Studio\Visual Studio Documents\Audio\Angry Birds Theme Song.wav");
+            //AngryBirds.PlayLooping();
 
             MainMenu();
 
