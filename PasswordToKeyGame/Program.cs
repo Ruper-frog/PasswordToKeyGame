@@ -2,11 +2,17 @@
 using System.Data.OleDb;
 using System.Media;
 using System.Threading;
+using System.Collections;
 
 namespace PasswordToKeyGame
 {
     internal class Program
     {
+        public static string ToPush;
+
+        public static Stack Backwards = new Stack();
+        public static Stack Forward = new Stack();
+
         static void KeyBoard(ref string ReadLine, ref bool Left, ref bool Right, int x, int y)
         {
             bool Shift = false, CapsLock;
@@ -19,7 +25,22 @@ namespace PasswordToKeyGame
 
                 CapsLock = Console.CapsLock;
 
-                if (keyPressed == ConsoleKey.Backspace)
+                if (keyPressed == ConsoleKey.RightArrow)
+                {
+                    ToPush = Convert.ToString(Forward.Pop());
+                    Right = true;
+                }
+
+                else if (keyPressed == ConsoleKey.LeftArrow)
+                {
+                    ToPush = Convert.ToString(Backwards.Pop());
+                    Left = true;
+                }
+
+                if (Left || Right)
+                    StackFunction(Left, Right, ToPush);
+
+                else if (keyPressed == ConsoleKey.Backspace)
                 {
                     ReadLine = ReadLine.Substring(0, ReadLine.Length - 1);
 
@@ -29,16 +50,16 @@ namespace PasswordToKeyGame
 
                     Console.SetCursorPosition(x + ReadLine.Length, y);
                 }
-
-                if ((keyInfo.Modifiers & ConsoleModifiers.Shift) != 0)
-                    Shift = true;
-
-                if (keyPressed == ConsoleKey.Spacebar)
+                else if (keyPressed == ConsoleKey.Spacebar)
                 {
                     ReadLine += " ";
 
                     Console.Write(" ");
                 }
+
+                if ((keyInfo.Modifiers & ConsoleModifiers.Shift) != 0)
+                    Shift = true;
+
                 if (!Shift && !CapsLock || Shift && CapsLock)
                 {
                     switch (keyPressed)
@@ -374,12 +395,37 @@ namespace PasswordToKeyGame
                             Right = true;
                             break;
                     }
+
                 }
                 Shift = false;
             } while (keyPressed != ConsoleKey.Enter && keyPressed != ConsoleKey.LeftArrow && keyPressed != ConsoleKey.RightArrow);
         }
-        static void Stack()
+        static void StackFunction(bool Left, bool Right, string FuncionName)
         {
+
+
+            if (!Right || !Left)
+                Backwards.Push(FuncionName);
+
+            if (Left)
+            {
+                ToPush  = Convert.ToString(Backwards.Pop());
+
+                switch(ToPush)
+                {
+                    case "MainMenu":
+                        MainMenu();
+                        break;
+                    case "RegisterMenu":
+                        RegisterMenu();
+                        break;
+                    case "SignInMenu":
+                        SignInMenu(0, 0, "");
+                        break;
+                }
+
+                Forward.Push(ToPush);
+            }
 
         }
         static void MainMenu()
@@ -408,10 +454,16 @@ namespace PasswordToKeyGame
             switch (selectedIndex)
             {
                 case 0:
-                    RegisterMenu();
+                    {
+                        StackFunction(false, false, "MainMenu");
+                        RegisterMenu();
+                    }
                     break;
                 case 1:
-                    SignInMenu(0, 0, "");
+                    {
+                        StackFunction(false, false, "MainMenu");
+                        SignInMenu(0, 0, "");
+                    }
                     break;
             }
             return;
@@ -420,7 +472,7 @@ namespace PasswordToKeyGame
         {
             bool FoundIt = false, Left = false, Right = false;
 
-            string UserNameString = "ple enter your user name --> ";
+            string UserNameString = "ple enter your user name --> ", PasswordString = "pls enter your password --> ";
 
             Console.Clear();
 
@@ -450,14 +502,14 @@ namespace PasswordToKeyGame
 
             Console.WriteLine("\n");
 
-            Console.Write("pls enter your password --> ");
+            Console.Write(PasswordString);
 
             string NewPassword = "";
-            KeyBoard(ref NewPassword, ref Left, ref Right, UserNameString.Length, 15);
+            KeyBoard(ref NewPassword, ref Left, ref Right, PasswordString.Length, 17);
 
             ACCDB_Type_File($"INSERT INTO UserNameAndPassword ([UserName], [Password]) VALUES ('{NewUserName}', '{NewPassword}')", false, ref FoundIt);
 
-            Console.Write("You've Registered successfully");
+            Console.Write("\nYou've Registered successfully");
 
             Thread.Sleep(1000);
 
@@ -721,7 +773,7 @@ namespace PasswordToKeyGame
             if (!FoundIt)
             {
                 Console.Write("you've enterd the wrong UserName");
-                Thread.Sleep(1000);
+                Thread.Sleep(2000);
             }
 
             return FoundIt;
@@ -754,7 +806,7 @@ namespace PasswordToKeyGame
             else
             {
                 Console.Write("you've enterd the wrong Password");
-                Thread.Sleep(1000);
+                Thread.Sleep(2000);
             }
             return FoundIt;
         }
