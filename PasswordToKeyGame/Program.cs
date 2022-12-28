@@ -16,8 +16,6 @@ namespace PasswordToKeyGame
         static Stack Forwards = new Stack();
 
         static bool Left = false, Right = false;
-
-        static string readLine;
         static void RunKeyboardClass(ref string readLine, int x_Axis, int y_Axis)
         {
             Keyboard KeyboardClass = new Keyboard(readLine, x_Axis, y_Axis);
