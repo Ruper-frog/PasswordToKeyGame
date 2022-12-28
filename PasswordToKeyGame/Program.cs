@@ -532,7 +532,7 @@ namespace PasswordToKeyGame
 
             if (!FoundIt)
             {
-                Console.Write("you've enterd the wrong UserName");
+                Console.Write("\nyou've enterd the wrong UserName");
                 Thread.Sleep(2000);
             }
 
@@ -546,7 +546,7 @@ namespace PasswordToKeyGame
 
             if (FoundIt)
             {
-                Console.Write("you may enter");
+                Console.Write("\nyou may enter");
 
                 Thread.Sleep(1000);
 
@@ -565,7 +565,7 @@ namespace PasswordToKeyGame
 
             else
             {
-                Console.Write("you've enterd the wrong Password");
+                Console.Write("\nyou've enterd the wrong Password");
                 Thread.Sleep(2000);
             }
             return FoundIt;
