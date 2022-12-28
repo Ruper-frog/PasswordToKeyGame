@@ -67,6 +67,16 @@ namespace PasswordToKeyGame
                         if (SelectedIndex == Options.Length)
                             SelectedIndex = 0;
                 }
+                else if (keyPressed == ConsoleKey.LeftArrow)
+                {
+                    SelectedIndex = 3;
+                    break;
+                }
+                else if (keyPressed == ConsoleKey.RightArrow)
+                {
+                    SelectedIndex = 4;
+                    break;
+                }
             } while (keyPressed != ConsoleKey.Enter);
             return SelectedIndex;
         }
