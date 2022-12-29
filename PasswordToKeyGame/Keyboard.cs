@@ -17,6 +17,9 @@ namespace PasswordToKeyGame
         private static bool RightArrow = false;
         public Keyboard(string readLine, int x_Axis, int y_Axis)
         {
+            LeftArrow = false;
+            RightArrow = false;
+
             ReadLine = readLine;
             X_Axis = x_Axis;
             Y_Axis = y_Axis;

@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections;
 using System.Data.OleDb;
-using System.Runtime.Remoting.Messaging;
 using System.Threading;
 
 namespace PasswordToKeyGame
 {
     internal class Program
     {
-        static string ToPush;
+        static string ToPush, Reader, UserName;
 
-        static bool BackOrFor = true;
+        static int SelectedIndex, OldSelectedIndex;
 
         static Stack Backwards = new Stack();
         static Stack Forwards = new Stack();
@@ -19,17 +18,57 @@ namespace PasswordToKeyGame
         static void RunKeyboardClass(ref string readLine, int x_Axis, int y_Axis)
         {
             Keyboard KeyboardClass = new Keyboard(readLine, x_Axis, y_Axis);
-            KeyboardClass.Call(ref readLine, ref Left, ref  Right);
+            KeyboardClass.Call(ref readLine, ref Left, ref Right);
         }
         static void StackFunction()
         {
-            if (ToPush != null)
+            if (Right || Left)
             {
-                if (BackOrFor)
-                    Backwards.Push(ToPush);
-                else Forwards.Push(ToPush);
+                Left = false;
+                Right = false;
+
+                switch (Reader)
+                {
+                    case "MainMenu":
+                        MainMenu();
+                        break;
+                    case "RegisterMenu":
+                        RegisterMenu();
+                        break;
+                    case "SignInMenu":
+                        SignInMenu(0, 0);
+                        break;
+                    case "UpdateMenu":
+                        UpdateMenu(UserName);
+                        break;
+                }
             }
-            if (Backwards.Count == 0 && !Right)
+            ToPush = null;
+            Reader = null;
+        }
+        static void LeftArrow()
+        {
+            Reader = Convert.ToString(Backwards.Pop());
+            Forwards.Push(Reader);
+
+            Forwards.Push(ToPush);
+            StackFunction();
+        }
+        static void RightArrow()
+        {
+            Reader = Convert.ToString(Forwards.Pop());
+            StackFunction();
+        }
+        static void CheckMe()
+        {
+            if (Left)
+                LeftArrow();
+
+            else if (Forwards.Count != 0 && Right)
+            {
+                RightArrow();
+            }
+            else
             {
                 Console.Clear();
 
@@ -59,79 +98,15 @@ namespace PasswordToKeyGame
 ");
                 Thread.Sleep(3000);
 
-                if (Forwards.Count == 0)
-                    MainMenu();
-                else
-                    Right = true;
+                Reader = ToPush;
+                StackFunction();
             }
-            if (Forwards.Count == 0 && !Left && Backwards.Count == 0)
-            {
-                Console.Clear();
-
-                Console.WriteLine(@"
-██╗   ██╗ ██████╗ ██╗   ██╗     █████╗ ██████╗ ███████╗     █████╗ ██╗     ██████╗ ███████╗ █████╗ ██████╗ ██╗   ██╗
-╚██╗ ██╔╝██╔═══██╗██║   ██║    ██╔══██╗██╔══██╗██╔════╝    ██╔══██╗██║     ██╔══██╗██╔════╝██╔══██╗██╔══██╗╚██╗ ██╔╝
- ╚████╔╝ ██║   ██║██║   ██║    ███████║██████╔╝█████╗      ███████║██║     ██████╔╝█████╗  ███████║██║  ██║ ╚████╔╝ 
-  ╚██╔╝  ██║   ██║██║   ██║    ██╔══██║██╔══██╗██╔══╝      ██╔══██║██║     ██╔══██╗██╔══╝  ██╔══██║██║  ██║  ╚██╔╝  
-   ██║   ╚██████╔╝╚██████╔╝    ██║  ██║██║  ██║███████╗    ██║  ██║███████╗██║  ██║███████╗██║  ██║██████╔╝   ██║   
-   ╚═╝    ╚═════╝  ╚═════╝     ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝    ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═════╝    ╚═╝   
-
-              ██████╗ ███╗   ██╗    ████████╗██╗  ██╗███████╗    ███╗   ███╗ ██████╗ ███████╗████████╗
-             ██╔═══██╗████╗  ██║    ╚══██╔══╝██║  ██║██╔════╝    ████╗ ████║██╔═══██╗██╔════╝╚══██╔══╝
-             ██║   ██║██╔██╗ ██║       ██║   ███████║█████╗      ██╔████╔██║██║   ██║███████╗   ██║   
-             ██║   ██║██║╚██╗██║       ██║   ██╔══██║██╔══╝      ██║╚██╔╝██║██║   ██║╚════██║   ██║   
-             ╚██████╔╝██║ ╚████║       ██║   ██║  ██║███████╗    ██║ ╚═╝ ██║╚██████╔╝███████║   ██║   
-              ╚═════╝ ╚═╝  ╚═══╝       ╚═╝   ╚═╝  ╚═╝╚══════╝    ╚═╝     ╚═╝ ╚═════╝ ╚══════╝   ╚═╝   
-
-             ██████╗ ███████╗ ██████╗███████╗███╗   ██╗████████╗    ██████╗  █████╗  ██████╗ ███████╗
-             ██╔══██╗██╔════╝██╔════╝██╔════╝████╗  ██║╚══██╔══╝    ██╔══██╗██╔══██╗██╔════╝ ██╔════╝
-             ██████╔╝█████╗  ██║     █████╗  ██╔██╗ ██║   ██║       ██████╔╝███████║██║  ███╗█████╗  
-             ██╔══██╗██╔══╝  ██║     ██╔══╝  ██║╚██╗██║   ██║       ██╔═══╝ ██╔══██║██║   ██║██╔══╝  
-             ██║  ██║███████╗╚██████╗███████╗██║ ╚████║   ██║       ██║     ██║  ██║╚██████╔╝███████╗
-             ╚═╝  ╚═╝╚══════╝ ╚═════╝╚══════╝╚═╝  ╚═══╝   ╚═╝       ╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚══════╝
-                                                                                        
-                                                                                                                                                                                     
-                                                                                                                                                                                                                                                                                                             
-");
-                Thread.Sleep(3000);
-
-                if (Backwards.Count == 0 && Backwards.Count == 0)
-                    MainMenu();
-                else
-                    Left = true;
-            }
-                if (Left && Backwards.Count > 0)
-                {
-                    ToPush = Convert.ToString(Backwards.Pop());
-                }
-                else if (Right && Forwards.Count > 0)
-                {
-                    ToPush = Convert.ToString(Forwards.Pop());
-                }
-                if (Right || Left)
-                {
-                    Left = false;
-                    Right = false;
-                    BackOrFor = true;
-
-                    switch (ToPush)
-                    {
-                        case "MainMenu":
-                            MainMenu();
-                            break;
-                        case "RegisterMenu":
-                            RegisterMenu();
-                            break;
-                        case "SignInMenu":
-                            SignInMenu(0, 0, "");
-                            break;
-                    }
-                }
-                    ToPush = null;
         }
         static void MainMenu()
         {
             Console.Clear();
+
+            OldSelectedIndex = SelectedIndex;
 
             Console.ForegroundColor = ConsoleColor.DarkRed;
             string prompt = @"
@@ -150,42 +125,45 @@ namespace PasswordToKeyGame
 
             string[] options = { "Register ", "Sign In", "Exit" };
             Menu mainMenu = new Menu(options);
-            int selectedIndex = mainMenu.Run();
+            SelectedIndex = mainMenu.Run();
 
-            switch (selectedIndex)
+            if (Backwards.Count == 0)
+                Backwards.Push("MainMenu");
+            if (SelectedIndex != 3 && SelectedIndex != 4)
+            {
+                if (OldSelectedIndex != SelectedIndex && Forwards.Count != 0)
+                {
+                    Forwards.Clear();
+                }
+            }
+            switch (SelectedIndex)
             {
                 case 0:
                     {
-                        ToPush = "MainMenu";
-                        StackFunction();
                         RegisterMenu();
                     }
                     break;
                 case 1:
                     {
-                        ToPush = "MainMenu";
-                        StackFunction();
-                        SignInMenu(0, 0, "");
+                        SignInMenu(0, 0);
                     }
                     break;
                 case 3:
                     {
                         Left = true;
 
-                        if (Forwards.Count > 0)
-                            ToPush = Convert.ToString(Forwards.Peek());
+                        ToPush = "MainMenu";
 
-                        StackFunction();
+                        CheckMe();
                     }
                     break;
                 case 4:
                     {
                         Right = true;
 
-                        if (Backwards.Count > 0)
-                            ToPush = Convert.ToString(Backwards.Peek());
+                        ToPush = "MainMenu";
 
-                        StackFunction();
+                        CheckMe();
                     }
                     break;
             }
@@ -221,13 +199,13 @@ namespace PasswordToKeyGame
 
             string NewUserName = "";
 
-            RunKeyboardClass(ref NewUserName, UserNameString.Length, 15);;
+            RunKeyboardClass(ref NewUserName, UserNameString.Length, 15); ;
 
-            if (Right || Left)
+            if (Left || Right)
             {
                 ToPush = "RegisterMenu";
-                BackOrFor = false;
-               StackFunction();
+
+                CheckMe();
                 return;
             }
 
@@ -237,13 +215,13 @@ namespace PasswordToKeyGame
 
             string NewPassword = "";
 
-            RunKeyboardClass(ref NewPassword, PasswordString.Length, 17);;
+            RunKeyboardClass(ref NewPassword, PasswordString.Length, 17); ;
 
-            if (Right || Left)
+            if (Left || Right)
             {
                 ToPush = "RegisterMenu";
-                BackOrFor = false;
-                StackFunction();
+
+                CheckMe();
                 return;
             }
 
@@ -263,7 +241,7 @@ namespace PasswordToKeyGame
 
             MainMenu();
         }
-        static void SignInMenu(int NumberOfTimesHeGotTheUserNameWrong, int NumberOfTimesHeGotThePasswordWrong, string UserName)
+        static void SignInMenu(int NumberOfTimesHeGotTheUserNameWrong, int NumberOfTimesHeGotThePasswordWrong)
         {
             Console.Clear();
 
@@ -290,12 +268,14 @@ namespace PasswordToKeyGame
 
             if (NumberOfTimesHeGotThePasswordWrong == 0)
             {
-                while (NumberOfTimesHeGotTheUserNameWrong != 5)
+                while (NumberOfTimesHeGotTheUserNameWrong != 4)
                 {
-                    if (NumberOfTimesHeGotTheUserNameWrong == 4)
+                    if (NumberOfTimesHeGotTheUserNameWrong == 3)
                     {
                         Console.WriteLine("\nyou've tried to meny times pls go register first");
                         Thread.Sleep(4000);
+
+                        Backwards.Push("SignInMenu");
 
                         RegisterMenu();
                         break;
@@ -310,9 +290,11 @@ namespace PasswordToKeyGame
 
                     RunKeyboardClass(ref UserName, UserNameString.Length, 16);
 
-                    if (Right || Left)
+                    if (Left || Right)
                     {
-                        StackFunction();
+                        ToPush = "SignInMenu";
+
+                        CheckMe();
                         return;
                     }
 
@@ -322,12 +304,14 @@ namespace PasswordToKeyGame
                         break;
                 }
             }
-            while (NumberOfTimesHeGotThePasswordWrong != 5)
+            while (NumberOfTimesHeGotThePasswordWrong != 4)
             {
-                if (NumberOfTimesHeGotThePasswordWrong == 4)
+                if (NumberOfTimesHeGotThePasswordWrong == 3)
                 {
                     Console.WriteLine("\nyou've tried to meny times pls go Update your Password");
                     Thread.Sleep(4000);
+
+                    Backwards.Push("SignInMenu");
 
                     UpdateMenu(UserName);
                     break;
@@ -344,9 +328,11 @@ namespace PasswordToKeyGame
 
                 RunKeyboardClass(ref PasswordClient, UserNameString.Length, 16);
 
-                if (Right || Left)
+                if (Left || Right)
                 {
-                    StackFunction();
+                    ToPush = "SignInMenu";
+
+                    CheckMe();
                     return;
                 }
 
@@ -383,13 +369,23 @@ namespace PasswordToKeyGame
                                                                                                                          
 ");
 
+            Console.Write(UserNameString);
+
             string NewPassword = "";
 
-            RunKeyboardClass(ref NewPassword, UserNameString.Length, 18);
+            RunKeyboardClass(ref NewPassword, UserNameString.Length, 24);
+
+            if (Left || Right)
+            {
+                ToPush = "UpdateMenu";
+
+                CheckMe();
+                return;
+            }
 
             ACCDB_Type_File($"UPDATE UserNameAndPassword SET [Password] = '{NewPassword}' WHERE UserName = '{UserName}'", false, ref FoundIt);
 
-            Console.WriteLine("your Password was reset");
+            Console.WriteLine("\nyour Password was reset");
             Thread.Sleep(3000);
 
             MainMenu();
