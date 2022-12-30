@@ -49,6 +49,7 @@ namespace PasswordToKeyGame
         static void LeftArrow()
         {
             Reader = Convert.ToString(Backwards.Pop());
+
             Forwards.Push(Reader);
 
             Forwards.Push(ToPush);
@@ -152,9 +153,38 @@ namespace PasswordToKeyGame
                     {
                         Left = true;
 
-                        ToPush = "MainMenu";
+                        if (Forwards.Count != 0)
+                        {
 
-                        CheckMe();
+                            ToPush = "MainMenu";
+
+                            CheckMe();
+                        }
+                        else
+                        {
+                            Console.Clear();
+
+                            Console.WriteLine(@"
+             ██╗   ██╗ ██████╗ ██╗   ██╗    ███╗   ██╗███████╗███████╗██████╗     ████████╗ ██████╗     
+             ╚██╗ ██╔╝██╔═══██╗██║   ██║    ████╗  ██║██╔════╝██╔════╝██╔══██╗    ╚══██╔══╝██╔═══██╗    
+              ╚████╔╝ ██║   ██║██║   ██║    ██╔██╗ ██║█████╗  █████╗  ██║  ██║       ██║   ██║   ██║    
+               ╚██╔╝  ██║   ██║██║   ██║    ██║╚██╗██║██╔══╝  ██╔══╝  ██║  ██║       ██║   ██║   ██║    
+                ██║   ╚██████╔╝╚██████╔╝    ██║ ╚████║███████╗███████╗██████╔╝       ██║   ╚██████╔╝    
+                ╚═╝    ╚═════╝  ╚═════╝     ╚═╝  ╚═══╝╚══════╝╚══════╝╚═════╝        ╚═╝    ╚═════╝     
+
+              ██████╗██╗  ██╗ ██████╗  ██████╗ ███████╗███████╗    ███████╗██╗██████╗ ███████╗████████╗
+             ██╔════╝██║  ██║██╔═══██╗██╔═══██╗██╔════╝██╔════╝    ██╔════╝██║██╔══██╗██╔════╝╚══██╔══╝
+             ██║     ███████║██║   ██║██║   ██║███████╗█████╗      █████╗  ██║██████╔╝███████╗   ██║   
+             ██║     ██╔══██║██║   ██║██║   ██║╚════██║██╔══╝      ██╔══╝  ██║██╔══██╗╚════██║   ██║   
+             ╚██████╗██║  ██║╚██████╔╝╚██████╔╝███████║███████╗    ██║     ██║██║  ██║███████║   ██║   
+              ╚═════╝╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚══════╝╚══════╝    ╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝   ╚═╝                                             
+
+");
+                            Thread.Sleep(3000);
+
+                            Reader = Convert.ToString(Backwards.Pop());
+                            StackFunction();
+                        }
                     }
                     break;
                 case 4:
@@ -326,7 +356,7 @@ namespace PasswordToKeyGame
 
                 PasswordClient = "";
 
-                RunKeyboardClass(ref PasswordClient, UserNameString.Length, 16);
+                RunKeyboardClass(ref PasswordClient, PasswordString.Length, 18);
 
                 if (Left || Right)
                 {
