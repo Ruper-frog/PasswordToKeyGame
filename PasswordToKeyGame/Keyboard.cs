@@ -45,7 +45,7 @@ namespace PasswordToKeyGame
                 if (LeftArrow || RightArrow)
                     break;
 
-                else if (keyPressed == ConsoleKey.Backspace)
+                else if (keyPressed == ConsoleKey.Backspace && !(string.IsNullOrEmpty(ReadLine))
                 {
                     ReadLine = ReadLine.Substring(0, ReadLine.Length - 1);
 
