@@ -342,7 +342,7 @@ namespace PasswordToKeyGame
 
                 PasswordClient = "";
 
-                RunKeyboardClass(ref PasswordClient, UserNameString.Length, 16);
+                RunKeyboardClass(ref PasswordClient, PasswordString.Length, 18);
 
                 if (Right || Left)
                 {
