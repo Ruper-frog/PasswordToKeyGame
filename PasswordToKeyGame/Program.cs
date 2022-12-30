@@ -13,6 +13,7 @@ namespace PasswordToKeyGame
 
         static Stack Backwards = new Stack();
         static Stack Forwards = new Stack();
+        static Stack UpsideDown = new Stack();
 
         static bool Left = false, Right = false;
         static void RunKeyboardClass(ref string readLine, int x_Axis, int y_Axis)
@@ -48,9 +49,22 @@ namespace PasswordToKeyGame
         }
         static void LeftArrow()
         {
-            Reader = Convert.ToString(Backwards.Pop());
+            foreach (string str in Backwards)
+            {
+                UpsideDown.Push(str);
+            }
+            Backwards.Clear();
 
-            Forwards.Push(Reader);
+            foreach (string str in UpsideDown)
+            {
+                Forwards.Push(str);
+            }
+
+            UpsideDown.Clear();
+
+            //Reader = Convert.ToString(Backwards.Pop());
+
+            //Forwards.Push(Reader);
 
             Forwards.Push(ToPush);
             StackFunction();
