@@ -1,9 +1,18 @@
 # PasswordToKeyGame
 
-## The file is suppose to do the following things
+## The file is supposed to be a website demo
+which includes:
 
-1. Generate some rendom passwords and hopfully be able to UPDATE the database with the passwords.
-2. Connect to a MDB database type
-3. Connect to a ACCDB database type
-4. Recive User name and password and check if they match with the ones on the database
-5. i'll also will add the option to erace any colume
+1. Home page
+2. Register page
+3. Sign in page
+4. Update page (which u can only be accessed by getting the password 3 times wrong on the Sign in page)
+5. and the game itself
+
+Also as in a normal website, you have the ability to go through the pages by getting back with the left arrow and going forwards by using the right arrow
+
+# in addition to the program class, I've added 2 more classes which are:
+1. Display the main page
+2. Keyboard that suppose to imitate the Console.ReadLine by using ReadKye
+
+## For saving the data the file is using a database that holds all of the data.
