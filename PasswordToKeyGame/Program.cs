@@ -9,7 +9,7 @@ namespace PasswordToKeyGame
     {
         static string ToPush, Reader, UserName;
 
-        static int SelectedIndex, OldSelectedIndex;
+        static int SelectedIndex;
 
         static Stack Backwards = new Stack();
         static Stack Forwards = new Stack();
@@ -154,9 +154,7 @@ namespace PasswordToKeyGame
         static void MainMenu()
         {
             Console.Clear();
-
-            OldSelectedIndex = SelectedIndex;
-
+            
             Console.ForegroundColor = ConsoleColor.DarkRed;
             string prompt = @"
 ▓█████▄  ██▀███   ▄▄▄       █     █░ ██▓ ███▄    █   ▄████      ▄████  ▄▄▄       ███▄ ▄███▓▓█████
@@ -178,10 +176,8 @@ namespace PasswordToKeyGame
 
             if (SelectedIndex != 3 && SelectedIndex != 4)
             {
-                if (OldSelectedIndex != SelectedIndex && Forwards.Count != 0)
-                {
-                    Forwards.Clear();
-                }
+                Backwards.Clear();
+                Forwards.Clear();
             }
             switch (SelectedIndex)
             {
