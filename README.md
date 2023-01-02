@@ -12,7 +12,7 @@ which includes:
 Also as in a normal website, you have the ability to go through the pages by getting back with the left arrow and going forwards by using the right arrow
 
 # in addition to the program class, I've added 2 more classes which are:
-1. Display the main page
-2. Keyboard that suppose to imitate the Console.ReadLine by using ReadKye
+1. Display that is in charge of the main page
+2. Keyboard that suppose to imitate the Console.ReadLine by using Console.ReadKye
 
 ## For saving the data the file is using a database that holds all of the data.
