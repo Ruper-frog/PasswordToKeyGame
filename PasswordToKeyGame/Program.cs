@@ -36,7 +36,7 @@ namespace PasswordToKeyGame
                         RegisterMenu();
                         break;
                     case "SignInMenu":
-                        SignInMenu(0, 0);
+                        SignInMenu();
                         break;
                     case "UpdateMenu":
                         UpdateMenu();
@@ -154,7 +154,7 @@ namespace PasswordToKeyGame
         static void MainMenu()
         {
             Console.Clear();
-            
+
             Console.ForegroundColor = ConsoleColor.DarkRed;
             string prompt = @"
 ▓█████▄  ██▀███   ▄▄▄       █     █░ ██▓ ███▄    █   ▄████      ▄████  ▄▄▄       ███▄ ▄███▓▓█████
@@ -190,7 +190,7 @@ namespace PasswordToKeyGame
                 case 1:
                     {
                         Backwards.Push("MainMenu");
-                        SignInMenu(0, 0);
+                        SignInMenu();
                     }
                     break;
                 case 3:
@@ -215,11 +215,11 @@ namespace PasswordToKeyGame
         }
         static void RegisterMenu()
         {
+            Console.Clear();
+
             bool FoundIt = false;
 
             string UserNameString = "ple enter your user name --> ", PasswordString = "pls enter your password --> ";
-
-            Console.Clear();
 
             Console.ForegroundColor = ConsoleColor.DarkGreen;
 
@@ -287,9 +287,11 @@ namespace PasswordToKeyGame
 
             MainMenu();
         }
-        static void SignInMenu(int NumberOfTimesHeGotTheUserNameWrong, int NumberOfTimesHeGotThePasswordWrong)
+        static void SignInMenu()
         {
             Console.Clear();
+
+            int NumberOfTimesHeGotTheUserNameWrong = 0, NumberOfTimesHeGotThePasswordWrong = 0;
 
             string UserNameString = "pls Enter your User Name --> ", PasswordString = "pls Enter your Password --> ";
 
@@ -311,42 +313,38 @@ namespace PasswordToKeyGame
                                                
                                                
 ");
-
-            if (NumberOfTimesHeGotThePasswordWrong == 0)
+            while (NumberOfTimesHeGotTheUserNameWrong != 4)
             {
-                while (NumberOfTimesHeGotTheUserNameWrong != 4)
+                if (NumberOfTimesHeGotTheUserNameWrong == 3)
                 {
-                    if (NumberOfTimesHeGotTheUserNameWrong == 3)
-                    {
-                        Console.WriteLine("\nyou've tried to meny times pls go register first");
-                        Thread.Sleep(4000);
+                    Console.WriteLine("\nyou've tried to meny times pls go register first");
+                    Thread.Sleep(4000);
 
-                        Backwards.Push("SignInMenu");
+                    Backwards.Push("SignInMenu");
 
-                        RegisterMenu();
-                        break;
-                    }
-                    Console.SetCursorPosition(0, 16);
-
-                    Console.Write(UserNameString + "\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t");
-
-                    Console.SetCursorPosition(UserNameString.Length, 16);
-
-                    RunKeyboardClass(ref UserName, UserNameString.Length, 16);
-
-                    if (Left || Right)
-                    {
-                        ToPush = "SignInMenu";
-
-                        CheckMe();
-                        return;
-                    }
-
-                    if (UserNameClient(UserName) == false)
-                        NumberOfTimesHeGotTheUserNameWrong++;
-                    else
-                        break;
+                    RegisterMenu();
+                    break;
                 }
+                Console.SetCursorPosition(0, 16);
+
+                Console.Write(UserNameString + "\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t");
+
+                Console.SetCursorPosition(UserNameString.Length, 16);
+
+                RunKeyboardClass(ref UserName, UserNameString.Length, 16);
+
+                if (Left || Right)
+                {
+                    ToPush = "SignInMenu";
+
+                    CheckMe();
+                    return;
+                }
+
+                if (UserNameClient(UserName) == false)
+                    NumberOfTimesHeGotTheUserNameWrong++;
+                else
+                    break;
             }
             while (NumberOfTimesHeGotThePasswordWrong != 4)
             {
