@@ -171,7 +171,7 @@ namespace PasswordToKeyGame
 ";
             Console.WriteLine(prompt);
 
-            string[] options = { "Register ", "Sign In", "Exit" };
+            string[] options = { "Register ", "Sign in", "Exit" };
             Menu mainMenu = new Menu(options);
             SelectedIndex = mainMenu.Run();
 
@@ -326,6 +326,8 @@ namespace PasswordToKeyGame
                     RegisterMenu();
                     break;
                 }
+                UserName = "";
+
                 Console.SetCursorPosition(0, 16);
 
                 Console.Write(UserNameString + "\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t");
