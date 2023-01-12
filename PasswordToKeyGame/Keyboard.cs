@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PasswordToKeyGame
 {
@@ -21,8 +22,11 @@ namespace PasswordToKeyGame
         private static void KeyBoardFunction(ref string ReadLine, int x, int y)
         {
             bool Ctrl = false, Shift = false, CapsLock;
+            int Column = 0, WordLength = 0;
 
-            int SpaceBar = 0;
+            List<int> SpaceBar = new List<int>();
+
+            SpaceBar.Add(WordLength);
 
             ConsoleKey keyPressed;
             do
@@ -51,16 +55,31 @@ namespace PasswordToKeyGame
                 {
                     Console.SetCursorPosition(x, y);
 
+                    if (SpaceBar[Column] != WordLength)
+                    {
+                        SpaceBar.Add(0);
+                        Column--;
+                    }
+
+                    SpaceBar[Column] = WordLength;
+
                     if (Ctrl)
                     {
-                        ReadLine = ReadLine.Substring(0, ReadLine.Length - SpaceBar);
+                        ReadLine = ReadLine.Substring(0, ReadLine.Length - SpaceBar[Column]);
                         Console.Write(ReadLine);
 
-                        for (int i = 0; i < SpaceBar; i++)
+                        for (int i = 0; i < SpaceBar[Column]; i++)
                         {
                             Console.Write(" ");
                         }
-                        SpaceBar = 0;
+
+                        WordLength = 0;
+
+                        if (Column != 0)
+                        {
+                            SpaceBar.RemoveAt(Column);
+                            Column--;
+                        }
                     }
                     else
                     {
@@ -76,7 +95,13 @@ namespace PasswordToKeyGame
 
                     Console.Write(" ");
 
-                    SpaceBar = 0;
+                    if (Column == 0)
+                        SpaceBar[0] = WordLength;
+
+                    SpaceBar.Add(0);
+
+                    Column++;
+                    WordLength = 0;
                 }
 
                 if ((keyInfo.Modifiers & ConsoleModifiers.Shift) != 0)
@@ -250,8 +275,8 @@ namespace PasswordToKeyGame
                             break;
                     }
 
-                    if (!string.IsNullOrEmpty(ReadLine))
-                        SpaceBar++;
+                    if (!string.IsNullOrEmpty(ReadLine) && keyPressed != ConsoleKey.Spacebar)
+                        WordLength++;
                 }
                 if (CapsLock && !Shift || Shift && !CapsLock)
                 {
@@ -421,8 +446,8 @@ namespace PasswordToKeyGame
                             break;
                     }
 
-                    if (!string.IsNullOrEmpty(ReadLine))
-                        SpaceBar++;
+                    if (!string.IsNullOrEmpty(ReadLine) && keyPressed != ConsoleKey.Spacebar)
+                        WordLength++;
                 }
                 Shift = false;
                 Ctrl = false;
