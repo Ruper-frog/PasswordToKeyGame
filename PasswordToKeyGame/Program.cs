@@ -819,8 +819,8 @@ namespace PasswordToKeyGame
         }
         static void Main(string[] args)
         {
-            SoundPlayer AngryBirds = new SoundPlayer(soundLocation: @"C:\Users\USER\source\repos\Visual Studio\Visual Studio Documents\Audio\Angry Birds Theme Song.wav");
-            AngryBirds.PlayLooping();
+            //SoundPlayer AngryBirds = new SoundPlayer(soundLocation: @"C:\Users\USER\source\repos\Visual Studio\Visual Studio Documents\Audio\Angry Birds Theme Song.wav");
+            //AngryBirds.PlayLooping();
 
             MainMenu();
 
