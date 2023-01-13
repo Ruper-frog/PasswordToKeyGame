@@ -106,165 +106,112 @@ namespace PasswordToKeyGame
 
                 if ((keyInfo.Modifiers & ConsoleModifiers.Shift) != 0)
                     Shift = true;
-
+char Letter;
                 if (!Shift && !CapsLock || Shift && CapsLock)
                 {
                     switch (keyPressed)
                     {
                         case ConsoleKey.A:
-                            {
-                                Console.Write("a");
-                                ReadLine += "a";
-                            }
-                            break;
-                        case ConsoleKey.B:
-                            {
-                                Console.Write("b");
-                                ReadLine += "b";
-                            }
+                                Letter = 'a';
+                        Case ConsoleKey.B
+                                Letter = 'b';
                             break;
                         case ConsoleKey.C:
-                            {
-                                Console.Write("c");
-                                ReadLine += "c";
-                            }
+                                Letter = 'c';
                             break;
                         case ConsoleKey.D:
-                            {
-                                Console.Write("d");
-                                ReadLine += "d";
-                            }
+                                Letter = 'd';
                             break;
                         case ConsoleKey.E:
-                            {
-                                Console.Write("e");
-                                ReadLine += "e";
-                            }
+                                Letter = 'e';
                             break;
                         case ConsoleKey.F:
-                            {
-                                Console.Write("f");
-                                ReadLine += "f";
-                            }
+                                Letter = 'f';
                             break;
                         case ConsoleKey.G:
-                            {
-                                Console.Write("g");
-                                ReadLine += "g";
-                            }
+                                Letter = 'g';
                             break;
-                        case ConsoleKey.H:
-                            {
-                                Console.Write("h");
-                                ReadLine += "h";
-                            }
+                        case ConsoleKey.H
+                                Letter = 'h';
                             break;
                         case ConsoleKey.I:
-                            {
-                                Console.Write("i");
-                                ReadLine += "i";
-                            }
+                                Letter = 'i';
                             break;
                         case ConsoleKey.J:
-                            {
-                                Console.Write("j");
-                                ReadLine += "j";
-                            }
+                                Letter = 'j';
                             break;
                         case ConsoleKey.K:
-                            {
-                                Console.Write("k");
-                                ReadLine += "k";
-                            }
+                                Letter = 'k';
                             break;
                         case ConsoleKey.L:
-                            {
-                                Console.Write("l");
-                                ReadLine += "l";
-                            }
+                                Letter = 'l';
                             break;
                         case ConsoleKey.M:
-                            {
-                                Console.Write("m");
-                                ReadLine += "m";
-                            }
+                                Letter = 'm';
                             break;
                         case ConsoleKey.N:
                             {
-                                Console.Write("n");
-                                ReadLine += "n";
+                                Letter = 'n';
                             }
                             break;
                         case ConsoleKey.O:
                             {
-                                Console.Write("o");
-                                ReadLine += "o";
+                                Letter = 'o';
                             }
                             break;
                         case ConsoleKey.P:
                             {
-                                Console.Write("p");
-                                ReadLine += "p";
+                                Letter = 'p';
                             }
                             break;
                         case ConsoleKey.Q:
                             {
-                                Console.Write("q");
-                                ReadLine += "q";
+                                Letter = 'q';
                             }
                             break;
                         case ConsoleKey.R:
                             {
-                                Console.Write("r");
-                                ReadLine += "r";
+                                Letter = 'r';
                             }
                             break;
                         case ConsoleKey.S:
                             {
-                                Console.Write("s");
-                                ReadLine += "s";
+                                Letter = 's';
                             }
                             break;
                         case ConsoleKey.T:
                             {
-                                Console.Write("t");
-                                ReadLine += "t";
+                                Letter = 't';
                             }
                             break;
                         case ConsoleKey.U:
                             {
-                                Console.Write("u");
-                                ReadLine += "u";
+                                Letter = 'u';
                             }
                             break;
                         case ConsoleKey.V:
                             {
-                                Console.Write("v");
-                                ReadLine += "v";
+                                Letter = 'v';
                             }
                             break;
                         case ConsoleKey.W:
                             {
-                                Console.Write("w");
-                                ReadLine += "w";
+                                Letter = 'w';
                             }
                             break;
                         case ConsoleKey.X:
                             {
-                                Console.Write("x");
-                                ReadLine += "x";
+                                Letter = 'x';
                             }
                             break;
                         case ConsoleKey.Y:
                             {
-                                Console.Write("y");
-                                ReadLine += "y";
+                                Letter = 'y';
                             }
                             break;
                         case ConsoleKey.Z:
                             {
-                                Console.Write("z");
-                                ReadLine += "z";
+                                Letter = 'z';
                             }
                             break;
                         case ConsoleKey.LeftArrow:
@@ -274,6 +221,9 @@ namespace PasswordToKeyGame
                             RightArrow = true;
                             break;
                     }
+
+ReadLine += Letter;
+Console.Write(Letter);
 
                     if (!string.IsNullOrEmpty(ReadLine) && keyPressed != ConsoleKey.Spacebar)
                         WordLength++;
