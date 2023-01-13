@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.AccessControl;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PasswordToKeyGame
 {
@@ -26,7 +20,9 @@ namespace PasswordToKeyGame
         }
         private static void KeyBoardFunction(ref string ReadLine, int x, int y)
         {
-            bool Shift = false, CapsLock;
+            bool Ctrl = false, Shift = false, CapsLock;
+
+            int SpaceBar = 0;
 
             ConsoleKey keyPressed;
             do
@@ -36,22 +32,41 @@ namespace PasswordToKeyGame
 
                 CapsLock = Console.CapsLock;
 
+                if ((keyInfo.Modifiers & ConsoleModifiers.Control) != 0)
+                    Ctrl = true;
+
                 if (keyPressed == ConsoleKey.RightArrow)
+                {
                     RightArrow = true;
+                    break;
+                }
 
                 else if (keyPressed == ConsoleKey.LeftArrow)
-                    LeftArrow = true;
-
-                if (LeftArrow || RightArrow)
-                    break;
-
-                else if (keyPressed == ConsoleKey.Backspace && !(string.IsNullOrEmpty(ReadLine)))
                 {
-                    ReadLine = ReadLine.Substring(0, ReadLine.Length - 1);
+                    LeftArrow = true;
+                    break;
+                }
 
+                else if (keyPressed == ConsoleKey.Backspace && !string.IsNullOrEmpty(ReadLine))
+                {
                     Console.SetCursorPosition(x, y);
 
-                    Console.Write(ReadLine + " ");
+                    if (Ctrl)
+                    {
+                        ReadLine = ReadLine.Substring(0, ReadLine.Length - SpaceBar);
+                        Console.Write(ReadLine);
+
+                        for (int i = 0; i < SpaceBar; i++)
+                        {
+                            Console.Write(" ");
+                        }
+                        SpaceBar = 0;
+                    }
+                    else
+                    {
+                        ReadLine = ReadLine.Substring(0, ReadLine.Length - 1);
+                        Console.Write(ReadLine + " ");
+                    }
 
                     Console.SetCursorPosition(x + ReadLine.Length, y);
                 }
@@ -60,6 +75,8 @@ namespace PasswordToKeyGame
                     ReadLine += " ";
 
                     Console.Write(" ");
+
+                    SpaceBar = 0;
                 }
 
                 if ((keyInfo.Modifiers & ConsoleModifiers.Shift) != 0)
@@ -232,6 +249,9 @@ namespace PasswordToKeyGame
                             RightArrow = true;
                             break;
                     }
+
+                    if (!string.IsNullOrEmpty(ReadLine))
+                        SpaceBar++;
                 }
                 if (CapsLock && !Shift || Shift && !CapsLock)
                 {
@@ -400,8 +420,12 @@ namespace PasswordToKeyGame
                             RightArrow = true;
                             break;
                     }
+
+                    if (!string.IsNullOrEmpty(ReadLine))
+                        SpaceBar++;
                 }
                 Shift = false;
+                Ctrl = false;
             } while (keyPressed != ConsoleKey.Enter && keyPressed != ConsoleKey.LeftArrow && keyPressed != ConsoleKey.RightArrow);
         }
         public void Call(ref string ReadLine, ref bool LeftArrowFunction, ref bool RightArrowFunction)
