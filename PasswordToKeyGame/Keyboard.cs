@@ -59,10 +59,11 @@ namespace PasswordToKeyGame
                 {
                     Console.SetCursorPosition(x, y);
 
+                    if (WordLength != 0)
+                        SpaceBar[Column] = WordLength;
+
                     if (Ctrl)
                     {
-                        if (WordLength != 0)
-                            SpaceBar[Column] = WordLength;
 
                         ReadLine = ReadLine.Substring(0, ReadLine.Length - SpaceBar[Column]);
                         Console.Write(ReadLine);
@@ -79,6 +80,9 @@ namespace PasswordToKeyGame
                     else
                     {
                         ReadLine = ReadLine.Substring(0, ReadLine.Length - 1);
+
+                        if (SpaceBar[Column] != 0)
+                            SpaceBar[Column]--;
 
                         if (WordLength != 0)
                             WordLength--;
