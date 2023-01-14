@@ -252,6 +252,14 @@ namespace PasswordToKeyGame
                             Letter = UpperCase ? "Z" : "z";
                         }
                         break;
+                    case ConsoleKey.OemMinus:
+                        {
+                            Letter = UpperCase ? "_" : "-";
+                        }
+                        break;
+                    case ConsoleKey.Oem7:
+                        Letter = UpperCase ? "\"" : "'";
+                        break;
                     case ConsoleKey.LeftArrow:
                         LeftArrow = true;
                         break;
