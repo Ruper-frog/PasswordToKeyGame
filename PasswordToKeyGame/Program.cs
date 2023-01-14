@@ -17,6 +17,21 @@ namespace PasswordToKeyGame
         static Stack Forwards = new Stack();
 
         static bool Left = false, Right = false;
+        static void FindKeyName()
+        {
+            ConsoleKeyInfo KeyInfo;
+            bool cont = true;
+
+            while (cont == true)
+            {
+                KeyInfo = Console.ReadKey();
+                Console.WriteLine();
+                Console.WriteLine(KeyInfo.Key + " Was Pressed");
+
+                if (KeyInfo.Key == ConsoleKey.Escape)
+                    cont = false;
+            }
+        }
         static void RunKeyboardClass(ref string readLine, int x_Axis, int y_Axis)
         {
             Keyboard KeyboardClass = new Keyboard(readLine, x_Axis, y_Axis);
