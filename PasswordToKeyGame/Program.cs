@@ -3,6 +3,7 @@ using System.Collections;
 using System.Data.OleDb;
 using System.Threading;
 using System.Media;
+using System.Collections.Generic;
 
 namespace PasswordToKeyGame
 {
@@ -245,25 +246,20 @@ namespace PasswordToKeyGame
 
             string NewUserName = "";
 
-            RunKeyboardClass(ref NewUserName, UserNameString.Length, 15); ;
-
-            if (Left || Right)
+            while (true)
             {
-                ToPush = "RegisterMenu";
+                RunKeyboardClass(ref NewUserName, UserNameString.Length, 15); ;
 
-                CheckMe();
-                return;
+                if (Left || Right)
+                {
+                    ToPush = "RegisterMenu";
+
+                    CheckMe();
+                    return;
+                }
+                if (!String.IsNullOrEmpty(NewUserName))
+                    break;
             }
-
-            //if (String.IsNullOrEmpty(NewUserName))
-            //{
-            //    Console.WriteLine("\nYou can't leave it empty");
-
-            //    Thread.Sleep(3000);
-
-                
-            //    return;
-            //}
 
             Console.WriteLine("\n");
 
@@ -271,25 +267,20 @@ namespace PasswordToKeyGame
 
             string NewPassword = "";
 
-            RunKeyboardClass(ref NewPassword, PasswordString.Length, 17); ;
-
-            if (Left || Right)
+            while (true)
             {
-                ToPush = "RegisterMenu";
+                RunKeyboardClass(ref NewPassword, PasswordString.Length, 17); ;
 
-                CheckMe();
-                return;
+                if (Left || Right)
+                {
+                    ToPush = "RegisterMenu";
+
+                    CheckMe();
+                    return;
+                }
+                if (!String.IsNullOrEmpty(NewUserName))
+                    break;
             }
-
-            //if (String.IsNullOrEmpty(NewUserName))
-            //{
-            //    Console.WriteLine("You can't leave it empty");
-
-            //    Thread.Sleep(3000);
-
-            //    RegisterMenu();
-            //    return;
-            //}
 
             ACCDB_Type_File($"INSERT INTO UserNameAndPassword ([UserName], [Password]) VALUES ('{NewUserName}', '{NewPassword}')", false, ref FoundIt);
 
@@ -444,20 +435,30 @@ namespace PasswordToKeyGame
 
             string NewPassword = "";
 
-            RunKeyboardClass(ref NewPassword, UserNameString.Length, 24);
-
-            if (Left || Right)
+            while (true)
             {
-                ToPush = "UpdateMenu";
+                RunKeyboardClass(ref NewPassword, UserNameString.Length, 24);
 
-                CheckMe();
-                return;
+                if (Left || Right)
+                {
+                    ToPush = "UpdateMenu";
+
+                    CheckMe();
+                    return;
+                }
+                if (!String.IsNullOrEmpty(NewPassword))
+                    break;
             }
-
             ACCDB_Type_File($"UPDATE UserNameAndPassword SET [Password] = '{NewPassword}' WHERE UserName = '{UserName}'", false, ref FoundIt);
 
-            Console.WriteLine("\nyour Password was reset");
-            Thread.Sleep(3000);
+            Console.Write("\nyour Password was reset");
+            Thread.Sleep(1000);
+
+            for (int k = 0; k < 3; k++)
+            {
+                Console.Write(".");
+                Thread.Sleep(1000);
+            }
 
             Backwards.Clear();
             Forwards.Clear();
@@ -494,6 +495,24 @@ namespace PasswordToKeyGame
 
             connection.Open();
 
+            command.CommandText = $"SELECT * FROM UserNameAndPassword";
+
+            OleDbDataReader reader = command.ExecuteReader();
+
+            List<string> IDNum = new List<string>();
+
+            int Column = 0;
+
+            while (reader.Read())
+            {
+                IDNum[Column] = reader.GetString(0);
+                Column++;
+            }
+
+            connection.Close();
+
+            connection.Open();
+
             Random random = new Random();
 
             int Start, Stop;
@@ -502,7 +521,7 @@ namespace PasswordToKeyGame
 
             string Print, Print1 = "";
 
-            for (int j = 1; j <= 4; j++)
+            for (int j = 1; j <= IDNum.Count; j++)
             {
                 Print1 = "";
 
@@ -551,7 +570,7 @@ namespace PasswordToKeyGame
 
                     Print1 = Print1 + Print;
                 }
-                command.CommandText = $"UPDATE UserNameAndPassword SET [Password] = '{Print1}' WHERE ID = {j}";
+                command.CommandText = $"UPDATE UserNameAndPassword SET [Password] = '{Print1}' WHERE ID = {IDNum[j]}";
                 command.ExecuteNonQuery();
 
                 Console.WriteLine(Print1);
