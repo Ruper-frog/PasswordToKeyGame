@@ -255,6 +255,16 @@ namespace PasswordToKeyGame
                 return;
             }
 
+            //if (String.IsNullOrEmpty(NewUserName))
+            //{
+            //    Console.WriteLine("\nYou can't leave it empty");
+
+            //    Thread.Sleep(3000);
+
+                
+            //    return;
+            //}
+
             Console.WriteLine("\n");
 
             Console.Write(PasswordString);
@@ -270,6 +280,16 @@ namespace PasswordToKeyGame
                 CheckMe();
                 return;
             }
+
+            //if (String.IsNullOrEmpty(NewUserName))
+            //{
+            //    Console.WriteLine("You can't leave it empty");
+
+            //    Thread.Sleep(3000);
+
+            //    RegisterMenu();
+            //    return;
+            //}
 
             ACCDB_Type_File($"INSERT INTO UserNameAndPassword ([UserName], [Password]) VALUES ('{NewUserName}', '{NewPassword}')", false, ref FoundIt);
 
@@ -330,7 +350,7 @@ namespace PasswordToKeyGame
 
                 Console.SetCursorPosition(0, 16);
 
-                Console.Write(UserNameString + "\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t");
+                Console.Write(UserNameString + "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
 
                 Console.SetCursorPosition(UserNameString.Length, 16);
 
@@ -344,10 +364,13 @@ namespace PasswordToKeyGame
                     return;
                 }
 
-                if (UserNameClient(UserName) == false)
-                    NumberOfTimesHeGotTheUserNameWrong++;
-                else
-                    break;
+                if (!String.IsNullOrEmpty(UserName))
+                {
+                    if (UserNameClient(UserName) == false)
+                        NumberOfTimesHeGotTheUserNameWrong++;
+                    else
+                        break;
+                }
             }
             while (NumberOfTimesHeGotThePasswordWrong != 4)
             {
@@ -363,7 +386,7 @@ namespace PasswordToKeyGame
                 }
                 Console.SetCursorPosition(0, 18);
 
-                Console.Write(PasswordString + "\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t");
+                Console.Write(PasswordString + "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
 
                 Console.SetCursorPosition(28, 18);
 
@@ -381,10 +404,13 @@ namespace PasswordToKeyGame
                     return;
                 }
 
-                if (Password(UserName, PasswordClient) == false)
-                    NumberOfTimesHeGotThePasswordWrong++;
-                else
-                    break;
+                if (!String.IsNullOrEmpty(PasswordClient))
+                {
+                    if (Password(UserName, PasswordClient) == false)
+                        NumberOfTimesHeGotThePasswordWrong++;
+                    else
+                        break;
+                }
             }
         }
         static void UpdateMenu()
