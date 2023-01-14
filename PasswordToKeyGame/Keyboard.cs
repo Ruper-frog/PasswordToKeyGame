@@ -44,71 +44,75 @@ namespace PasswordToKeyGame
                 if ((keyInfo.Modifiers & ConsoleModifiers.Control) != 0)
                     Ctrl = true;
 
-                if (keyPressed == ConsoleKey.RightArrow)
+                switch (keyPressed)
                 {
-                    RightArrow = true;
-                    break;
-                }
+                    case ConsoleKey.RightArrow:
+                        RightArrow = true;
+                        break;
 
-                else if (keyPressed == ConsoleKey.LeftArrow)
-                {
-                    LeftArrow = true;
-                    break;
-                }
+                    case ConsoleKey.LeftArrow:
+                        LeftArrow = true;
+                        break;
 
-                else if (keyPressed == ConsoleKey.Backspace && !string.IsNullOrEmpty(ReadLine))
-                {
-                    Console.SetCursorPosition(x, y);
-
-                    if (WordLength != 0)
-                        SpaceBar[Column] = WordLength;
-
-                    if (SpaceBar[Column] == 0 && Column != 0)
-                    {
-                        SpaceBar.RemoveAt(Column);
-                        Column--;
-                    }
-
-                    if (Ctrl)
-                    {
-                        ReadLine = ReadLine.Substring(0, ReadLine.Length - SpaceBar[Column]);
-                        Console.Write(ReadLine);
-
-                        for (int i = 0; i < SpaceBar[Column]; i++)
+                    case ConsoleKey.Backspace:
                         {
-                            Console.Write(" ");
+                            if (!string.IsNullOrEmpty(ReadLine))
+                            {
+                                Console.SetCursorPosition(x, y);
+
+                                if (WordLength != 0)
+                                    SpaceBar[Column] = WordLength;
+
+                                if (SpaceBar[Column] == 0 && Column != 0)
+                                {
+                                    SpaceBar.RemoveAt(Column);
+                                    Column--;
+                                }
+
+                                if (Ctrl)
+                                {
+                                    ReadLine = ReadLine.Substring(0, ReadLine.Length - SpaceBar[Column]);
+                                    Console.Write(ReadLine);
+
+                                    for (int i = 0; i < SpaceBar[Column]; i++)
+                                    {
+                                        Console.Write(" ");
+                                    }
+
+                                    SpaceBar.RemoveAt(Column);
+                                    WordLength = 0;
+                                    Column--;
+                                }
+                                else
+                                {
+                                    ReadLine = ReadLine.Substring(0, ReadLine.Length - 1);
+
+                                    if (SpaceBar[Column] != 0)
+                                        SpaceBar[Column]--;
+
+                                    if (WordLength != 0)
+                                        WordLength--;
+
+                                    Console.Write(ReadLine + " ");
+                                }
+
+                                Console.SetCursorPosition(x + ReadLine.Length, y);
+                            }
                         }
+                        break;
+                    case ConsoleKey.Spacebar:
+                        {
+                            ReadLine += " ";
 
-                        SpaceBar.RemoveAt(Column);
-                        WordLength = 0;
-                        Column--;
-                    }
-                    else
-                    {
-                        ReadLine = ReadLine.Substring(0, ReadLine.Length - 1);
+                            Console.Write(" ");
 
-                        if (SpaceBar[Column] != 0)
-                            SpaceBar[Column]--;
+                            SpaceBar[Column] = ++WordLength;
+                            Column++;
 
-                        if (WordLength != 0)
-                            WordLength--;
-
-                        Console.Write(ReadLine + " ");
-                    }
-
-                    Console.SetCursorPosition(x + ReadLine.Length, y);
-                }
-                else if (keyPressed == ConsoleKey.Spacebar)
-                {
-                    ReadLine += " ";
-
-                    Console.Write(" ");
-
-                    SpaceBar[Column] = ++WordLength;
-                    Column++;
-
-                    SpaceBar.Add(0);
-                    WordLength = 0;
+                            SpaceBar.Add(0);
+                            WordLength = 0;
+                        }
+                        break;
                 }
 
                 if ((keyInfo.Modifiers & ConsoleModifiers.Shift) != 0)
@@ -201,9 +205,6 @@ namespace PasswordToKeyGame
                     case ConsoleKey.Z:
                         Letter = UpperCase ? "Z" : "z";
                         break;
-                    case ConsoleKey.D0:
-                        Letter = UpperCase ? ")" : "0";
-                        break;
                     case ConsoleKey.D1:
                         Letter = UpperCase ? "!" : "1";
                         break;
@@ -231,11 +232,26 @@ namespace PasswordToKeyGame
                     case ConsoleKey.D9:
                         Letter = UpperCase ? "(" : "9";
                         break;
+                    case ConsoleKey.D0:
+                        Letter = UpperCase ? ")" : "0";
+                        break;
                     case ConsoleKey.OemMinus:
                         Letter = UpperCase ? "_" : "-";
                         break;
+                    case ConsoleKey.OemPlus:
+                        Letter = UpperCase ? "+" : "=";
+                        break;
                     case ConsoleKey.Oem7:
                         Letter = UpperCase ? "\"" : "'";
+                        break;
+                    case ConsoleKey.OemComma:
+                        Letter = UpperCase ? "<" : ",";
+                        break;
+                    case ConsoleKey.OemPeriod:
+                        Letter = UpperCase ? ">" : ".";
+                        break;
+                    case ConsoleKey.Oem2:
+                        Letter = UpperCase ? ":" : ";";
                         break;
                     case ConsoleKey.LeftArrow:
                         LeftArrow = true;
