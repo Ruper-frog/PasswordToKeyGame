@@ -60,8 +60,7 @@ namespace PasswordToKeyGame
                             {
                                 Console.SetCursorPosition(x, y);
 
-                                if (WordLength != 0)
-                                    SpaceBar[Column] = WordLength;
+                                    SpaceBar[Column] += WordLength;
 
                                 if (SpaceBar[Column] == 0 && Column != 0)
                                 {
