@@ -3,6 +3,7 @@ using System.Collections;
 using System.Data.OleDb;
 using System.Threading;
 using System.Media;
+using System.Collections.Generic;
 
 namespace PasswordToKeyGame
 {
@@ -16,6 +17,21 @@ namespace PasswordToKeyGame
         static Stack Forwards = new Stack();
 
         static bool Left = false, Right = false;
+        static void FindKeyName()
+        {
+            ConsoleKeyInfo KeyInfo;
+            bool cont = true;
+
+            while (cont == true)
+            {
+                KeyInfo = Console.ReadKey();
+                Console.WriteLine();
+                Console.WriteLine(KeyInfo.Key + " Was Pressed");
+
+                if (KeyInfo.Key == ConsoleKey.Escape)
+                    cont = false;
+            }
+        }
         static void RunKeyboardClass(ref string readLine, int x_Axis, int y_Axis)
         {
             Keyboard KeyboardClass = new Keyboard(readLine, x_Axis, y_Axis);
@@ -245,14 +261,19 @@ namespace PasswordToKeyGame
 
             string NewUserName = "";
 
-            RunKeyboardClass(ref NewUserName, UserNameString.Length, 15); ;
-
-            if (Left || Right)
+            while (true)
             {
-                ToPush = "RegisterMenu";
+                RunKeyboardClass(ref NewUserName, UserNameString.Length, 15); ;
 
-                CheckMe();
-                return;
+                if (Left || Right)
+                {
+                    ToPush = "RegisterMenu";
+
+                    CheckMe();
+                    return;
+                }
+                if (!String.IsNullOrEmpty(NewUserName))
+                    break;
             }
 
             Console.WriteLine("\n");
@@ -261,14 +282,19 @@ namespace PasswordToKeyGame
 
             string NewPassword = "";
 
-            RunKeyboardClass(ref NewPassword, PasswordString.Length, 17); ;
-
-            if (Left || Right)
+            while (true)
             {
-                ToPush = "RegisterMenu";
+                RunKeyboardClass(ref NewPassword, PasswordString.Length, 17); ;
 
-                CheckMe();
-                return;
+                if (Left || Right)
+                {
+                    ToPush = "RegisterMenu";
+
+                    CheckMe();
+                    return;
+                }
+                if (!String.IsNullOrEmpty(NewUserName))
+                    break;
             }
 
             ACCDB_Type_File($"INSERT INTO UserNameAndPassword ([UserName], [Password]) VALUES ('{NewUserName}', '{NewPassword}')", false, ref FoundIt);
@@ -330,7 +356,7 @@ namespace PasswordToKeyGame
 
                 Console.SetCursorPosition(0, 16);
 
-                Console.Write(UserNameString + "\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t");
+                Console.Write(UserNameString + "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
 
                 Console.SetCursorPosition(UserNameString.Length, 16);
 
@@ -344,10 +370,13 @@ namespace PasswordToKeyGame
                     return;
                 }
 
-                if (UserNameClient(UserName) == false)
-                    NumberOfTimesHeGotTheUserNameWrong++;
-                else
-                    break;
+                if (!String.IsNullOrEmpty(UserName))
+                {
+                    if (UserNameClient(UserName) == false)
+                        NumberOfTimesHeGotTheUserNameWrong++;
+                    else
+                        break;
+                }
             }
             while (NumberOfTimesHeGotThePasswordWrong != 4)
             {
@@ -363,7 +392,7 @@ namespace PasswordToKeyGame
                 }
                 Console.SetCursorPosition(0, 18);
 
-                Console.Write(PasswordString + "\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t");
+                Console.Write(PasswordString + "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
 
                 Console.SetCursorPosition(28, 18);
 
@@ -381,10 +410,13 @@ namespace PasswordToKeyGame
                     return;
                 }
 
-                if (Password(UserName, PasswordClient) == false)
-                    NumberOfTimesHeGotThePasswordWrong++;
-                else
-                    break;
+                if (!String.IsNullOrEmpty(PasswordClient))
+                {
+                    if (Password(UserName, PasswordClient) == false)
+                        NumberOfTimesHeGotThePasswordWrong++;
+                    else
+                        break;
+                }
             }
         }
         static void UpdateMenu()
@@ -418,20 +450,30 @@ namespace PasswordToKeyGame
 
             string NewPassword = "";
 
-            RunKeyboardClass(ref NewPassword, UserNameString.Length, 24);
-
-            if (Left || Right)
+            while (true)
             {
-                ToPush = "UpdateMenu";
+                RunKeyboardClass(ref NewPassword, UserNameString.Length, 24);
 
-                CheckMe();
-                return;
+                if (Left || Right)
+                {
+                    ToPush = "UpdateMenu";
+
+                    CheckMe();
+                    return;
+                }
+                if (!String.IsNullOrEmpty(NewPassword))
+                    break;
             }
-
             ACCDB_Type_File($"UPDATE UserNameAndPassword SET [Password] = '{NewPassword}' WHERE UserName = '{UserName}'", false, ref FoundIt);
 
-            Console.WriteLine("\nyour Password was reset");
-            Thread.Sleep(3000);
+            Console.Write("\nyour Password was reset");
+            Thread.Sleep(1000);
+
+            for (int k = 0; k < 3; k++)
+            {
+                Console.Write(".");
+                Thread.Sleep(1000);
+            }
 
             Backwards.Clear();
             Forwards.Clear();
@@ -468,6 +510,24 @@ namespace PasswordToKeyGame
 
             connection.Open();
 
+            command.CommandText = $"SELECT * FROM UserNameAndPassword";
+
+            OleDbDataReader reader = command.ExecuteReader();
+
+            List<string> IDNum = new List<string>();
+
+            int Column = 0;
+
+            while (reader.Read())
+            {
+                IDNum[Column] = reader.GetString(0);
+                Column++;
+            }
+
+            connection.Close();
+
+            connection.Open();
+
             Random random = new Random();
 
             int Start, Stop;
@@ -476,7 +536,7 @@ namespace PasswordToKeyGame
 
             string Print, Print1 = "";
 
-            for (int j = 1; j <= 4; j++)
+            for (int j = 1; j <= IDNum.Count; j++)
             {
                 Print1 = "";
 
@@ -525,7 +585,7 @@ namespace PasswordToKeyGame
 
                     Print1 = Print1 + Print;
                 }
-                command.CommandText = $"UPDATE UserNameAndPassword SET [Password] = '{Print1}' WHERE ID = {j}";
+                command.CommandText = $"UPDATE UserNameAndPassword SET [Password] = '{Print1}' WHERE ID = {IDNum[j]}";
                 command.ExecuteNonQuery();
 
                 Console.WriteLine(Print1);
@@ -552,7 +612,7 @@ namespace PasswordToKeyGame
         }
         static void ACCDB_Type_File(string CommandText, bool ReadOrNot, ref bool FoundIt)
         {
-            string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=""C:\Users\ruper\source\repos\Visual Studio\Visual Studio Documents\Access\UserName and Passowrd.accdb""";
+            string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=""C:\Users\USER\source\repos\Visual Studio\Visual Studio Documents\Access\UserName and Passowrd.accdb""";
             OleDbConnection connection = new OleDbConnection(connectionString);
             OleDbCommand command = new OleDbCommand("", connection);
 

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace PasswordToKeyGame
 {
@@ -22,9 +24,16 @@ namespace PasswordToKeyGame
         {
             bool Ctrl = false, Shift = false, CapsLock;
 
-            int SpaceBar = 0;
+            List<int> WordLength = new List<int>();
+
+            int Typed = 0, Column = -1;
+
+            string LastKey = "";
+
+            bool LastKeyProblem = true;
 
             ConsoleKey keyPressed;
+
             do
             {
                 ConsoleKeyInfo keyInfo = Console.ReadKey(true);
@@ -35,397 +44,193 @@ namespace PasswordToKeyGame
                 if ((keyInfo.Modifiers & ConsoleModifiers.Control) != 0)
                     Ctrl = true;
 
-                if (keyPressed == ConsoleKey.RightArrow)
-                {
-                    RightArrow = true;
-                    break;
-                }
+                if (LastKey == "Backspace")
+                    LastKeyProblem = true;
 
-                else if (keyPressed == ConsoleKey.LeftArrow)
-                {
-                    LeftArrow = true;
-                    break;
-                }
+                else if (LastKey == "Spacebar" && Ctrl)
+                    LastKeyProblem = true;
 
-                else if (keyPressed == ConsoleKey.Backspace && !string.IsNullOrEmpty(ReadLine))
-                {
-                    Console.SetCursorPosition(x, y);
-
-                    if (Ctrl)
+                    switch (keyPressed)
                     {
-                        ReadLine = ReadLine.Substring(0, ReadLine.Length - SpaceBar);
-                        Console.Write(ReadLine);
+                        case ConsoleKey.RightArrow:
+                            RightArrow = true;
+                            break;
 
-                        for (int i = 0; i < SpaceBar; i++)
-                        {
-                            Console.Write(" ");
-                        }
-                        SpaceBar = 0;
+                        case ConsoleKey.LeftArrow:
+                            LeftArrow = true;
+                            break;
+
+                        case ConsoleKey.Backspace:
+                            {
+                                if (!string.IsNullOrEmpty(ReadLine))
+                                {
+                                    Console.SetCursorPosition(x, y);
+
+                                    if (Ctrl)
+                                    {
+                                        if (!LastKeyProblem)
+                                        {
+                                            WordLength.Add(Typed);
+                                            Column++;
+                                        }
+                                        ReadLine = ReadLine.Substring(0, ReadLine.Length - WordLength[Column]);
+                                        Console.Write(ReadLine);
+
+                                        for (int i = 0; i < WordLength[Column]; i++)
+                                            Console.Write(" ");
+                                    }
+                                    else
+                                    {
+                                        ReadLine = ReadLine.Remove(ReadLine.Length - 1, 1);
+                                        Console.Write(ReadLine + " ");
+
+                                        Typed--;
+                                    }
+
+                                    WordLength.RemoveAt(Column);
+
+                                    Column--;
+
+                                    Typed = 0;
+
+                                    Console.SetCursorPosition(x + ReadLine.Length, y);
+                                }
+                            }
+                            break;
+                        case ConsoleKey.Spacebar:
+                            {
+                                ReadLine += " ";
+                                Console.Write(" ");
+
+                                WordLength.Add(++Typed);
+                                Column++;
+                                Typed = 0;
+                            }
+                            break;
                     }
-                    else
-                    {
-                        ReadLine = ReadLine.Substring(0, ReadLine.Length - 1);
-                        Console.Write(ReadLine + " ");
-                    }
-
-                    Console.SetCursorPosition(x + ReadLine.Length, y);
-                }
-                else if (keyPressed == ConsoleKey.Spacebar)
-                {
-                    ReadLine += " ";
-
-                    Console.Write(" ");
-
-                    SpaceBar = 0;
-                }
 
                 if ((keyInfo.Modifiers & ConsoleModifiers.Shift) != 0)
                     Shift = true;
 
-                if (!Shift && !CapsLock || Shift && CapsLock)
-                {
-                    switch (keyPressed)
-                    {
-                        case ConsoleKey.A:
-                            {
-                                Console.Write("a");
-                                ReadLine += "a";
-                            }
-                            break;
-                        case ConsoleKey.B:
-                            {
-                                Console.Write("b");
-                                ReadLine += "b";
-                            }
-                            break;
-                        case ConsoleKey.C:
-                            {
-                                Console.Write("c");
-                                ReadLine += "c";
-                            }
-                            break;
-                        case ConsoleKey.D:
-                            {
-                                Console.Write("d");
-                                ReadLine += "d";
-                            }
-                            break;
-                        case ConsoleKey.E:
-                            {
-                                Console.Write("e");
-                                ReadLine += "e";
-                            }
-                            break;
-                        case ConsoleKey.F:
-                            {
-                                Console.Write("f");
-                                ReadLine += "f";
-                            }
-                            break;
-                        case ConsoleKey.G:
-                            {
-                                Console.Write("g");
-                                ReadLine += "g";
-                            }
-                            break;
-                        case ConsoleKey.H:
-                            {
-                                Console.Write("h");
-                                ReadLine += "h";
-                            }
-                            break;
-                        case ConsoleKey.I:
-                            {
-                                Console.Write("i");
-                                ReadLine += "i";
-                            }
-                            break;
-                        case ConsoleKey.J:
-                            {
-                                Console.Write("j");
-                                ReadLine += "j";
-                            }
-                            break;
-                        case ConsoleKey.K:
-                            {
-                                Console.Write("k");
-                                ReadLine += "k";
-                            }
-                            break;
-                        case ConsoleKey.L:
-                            {
-                                Console.Write("l");
-                                ReadLine += "l";
-                            }
-                            break;
-                        case ConsoleKey.M:
-                            {
-                                Console.Write("m");
-                                ReadLine += "m";
-                            }
-                            break;
-                        case ConsoleKey.N:
-                            {
-                                Console.Write("n");
-                                ReadLine += "n";
-                            }
-                            break;
-                        case ConsoleKey.O:
-                            {
-                                Console.Write("o");
-                                ReadLine += "o";
-                            }
-                            break;
-                        case ConsoleKey.P:
-                            {
-                                Console.Write("p");
-                                ReadLine += "p";
-                            }
-                            break;
-                        case ConsoleKey.Q:
-                            {
-                                Console.Write("q");
-                                ReadLine += "q";
-                            }
-                            break;
-                        case ConsoleKey.R:
-                            {
-                                Console.Write("r");
-                                ReadLine += "r";
-                            }
-                            break;
-                        case ConsoleKey.S:
-                            {
-                                Console.Write("s");
-                                ReadLine += "s";
-                            }
-                            break;
-                        case ConsoleKey.T:
-                            {
-                                Console.Write("t");
-                                ReadLine += "t";
-                            }
-                            break;
-                        case ConsoleKey.U:
-                            {
-                                Console.Write("u");
-                                ReadLine += "u";
-                            }
-                            break;
-                        case ConsoleKey.V:
-                            {
-                                Console.Write("v");
-                                ReadLine += "v";
-                            }
-                            break;
-                        case ConsoleKey.W:
-                            {
-                                Console.Write("w");
-                                ReadLine += "w";
-                            }
-                            break;
-                        case ConsoleKey.X:
-                            {
-                                Console.Write("x");
-                                ReadLine += "x";
-                            }
-                            break;
-                        case ConsoleKey.Y:
-                            {
-                                Console.Write("y");
-                                ReadLine += "y";
-                            }
-                            break;
-                        case ConsoleKey.Z:
-                            {
-                                Console.Write("z");
-                                ReadLine += "z";
-                            }
-                            break;
-                        case ConsoleKey.LeftArrow:
-                            LeftArrow = true;
-                            break;
-                        case ConsoleKey.RightArrow:
-                            RightArrow = true;
-                            break;
-                    }
+                string Letter = null;
 
-                    if (!string.IsNullOrEmpty(ReadLine))
-                        SpaceBar++;
-                }
+                bool UpperCase = false;
+
                 if (CapsLock && !Shift || Shift && !CapsLock)
-                {
-                    switch (keyPressed)
-                    {
-                        case ConsoleKey.A:
-                            {
-                                Console.Write("A");
-                                ReadLine += "A";
-                            }
-                            break;
-                        case ConsoleKey.B:
-                            {
-                                Console.Write("B");
-                                ReadLine += "B";
-                            }
-                            break;
-                        case ConsoleKey.C:
-                            {
-                                Console.Write("C");
-                                ReadLine += "C";
-                            }
-                            break;
-                        case ConsoleKey.D:
-                            {
-                                Console.Write("D");
-                                ReadLine += "D";
-                            }
-                            break;
-                        case ConsoleKey.E:
-                            {
-                                Console.Write("E");
-                                ReadLine += "E";
-                            }
-                            break;
-                        case ConsoleKey.F:
-                            {
-                                Console.Write("F");
-                                ReadLine += "F";
-                            }
-                            break;
-                        case ConsoleKey.G:
-                            {
-                                Console.Write("G");
-                                ReadLine += "G";
-                            }
-                            break;
-                        case ConsoleKey.H:
-                            {
-                                Console.Write("H");
-                                ReadLine += "H";
-                            }
-                            break;
-                        case ConsoleKey.I:
-                            {
-                                Console.Write("I");
-                                ReadLine += "I";
-                            }
-                            break;
-                        case ConsoleKey.J:
-                            {
-                                Console.Write("J");
-                                ReadLine += "J";
-                            }
-                            break;
-                        case ConsoleKey.K:
-                            {
-                                Console.Write("K");
-                                ReadLine += "K";
-                            }
-                            break;
-                        case ConsoleKey.L:
-                            {
-                                Console.Write("L");
-                                ReadLine += "L";
-                            }
-                            break;
-                        case ConsoleKey.M:
-                            {
-                                Console.Write("M");
-                                ReadLine += "M";
-                            }
-                            break;
-                        case ConsoleKey.N:
-                            {
-                                Console.Write("N");
-                                ReadLine += "N";
-                            }
-                            break;
-                        case ConsoleKey.O:
-                            {
-                                Console.Write("O");
-                                ReadLine += "O";
-                            }
-                            break;
-                        case ConsoleKey.P:
-                            {
-                                Console.Write("P");
-                                ReadLine += "P";
-                            }
-                            break;
-                        case ConsoleKey.Q:
-                            {
-                                Console.Write("Q");
-                                ReadLine += "Q";
-                            }
-                            break;
-                        case ConsoleKey.R:
-                            {
-                                Console.Write("R");
-                                ReadLine += "R";
-                            }
-                            break;
-                        case ConsoleKey.S:
-                            {
-                                Console.Write("S");
-                                ReadLine += "S";
-                            }
-                            break;
-                        case ConsoleKey.T:
-                            {
-                                Console.Write("T");
-                                ReadLine += "T";
-                            }
-                            break;
-                        case ConsoleKey.U:
-                            {
-                                Console.Write("U");
-                                ReadLine += "U";
-                            }
-                            break;
-                        case ConsoleKey.V:
-                            {
-                                Console.Write("V");
-                                ReadLine += "V";
-                            }
-                            break;
-                        case ConsoleKey.W:
-                            {
-                                Console.Write("W");
-                                ReadLine += "W";
-                            }
-                            break;
-                        case ConsoleKey.X:
-                            {
-                                Console.Write("X");
-                                ReadLine += "X";
-                            }
-                            break;
-                        case ConsoleKey.Y:
-                            {
-                                Console.Write("Y");
-                                ReadLine += "Y";
-                            }
-                            break;
-                        case ConsoleKey.Z:
-                            {
-                                Console.Write("Z");
-                                ReadLine += "Z";
-                            }
-                            break;
-                        case ConsoleKey.LeftArrow:
-                            LeftArrow = true;
-                            break;
-                        case ConsoleKey.RightArrow:
-                            RightArrow = true;
-                            break;
-                    }
+                    UpperCase = true;
 
-                    if (!string.IsNullOrEmpty(ReadLine))
-                        SpaceBar++;
-                }
                 Shift = false;
                 Ctrl = false;
+
+                LastKey = Convert.ToString(keyPressed);
+
+                switch (keyPressed)
+                {
+                    case ConsoleKey.A:
+                        Letter = UpperCase ? "A" : "a"; break;
+                    case ConsoleKey.B:
+                        Letter = UpperCase ? "B" : "b"; break;
+                    case ConsoleKey.C:
+                        Letter = UpperCase ? "C" : "c"; break;
+                    case ConsoleKey.D:
+                        Letter = UpperCase ? "D" : "d"; break;
+                    case ConsoleKey.E:
+                        Letter = UpperCase ? "E" : "e"; break;
+                    case ConsoleKey.F:
+                        Letter = UpperCase ? "F" : "f"; break;
+                    case ConsoleKey.G:
+                        Letter = UpperCase ? "G" : "g"; break;
+                    case ConsoleKey.H:
+                        Letter = UpperCase ? "H" : "h"; break;
+                    case ConsoleKey.I:
+                        Letter = UpperCase ? "I" : "i"; break;
+                    case ConsoleKey.J:
+                        Letter = UpperCase ? "J" : "j"; break;
+                    case ConsoleKey.K:
+                        Letter = UpperCase ? "K" : "k"; break;
+                    case ConsoleKey.L:
+                        Letter = UpperCase ? "L" : "l"; break;
+                    case ConsoleKey.M:
+                        Letter = UpperCase ? "M" : "m"; break;
+                    case ConsoleKey.N:
+                        Letter = UpperCase ? "N" : "n"; break;
+                    case ConsoleKey.O:
+                        Letter = UpperCase ? "O" : "o"; break;
+                    case ConsoleKey.P:
+                        Letter = UpperCase ? "P" : "p"; break;
+                    case ConsoleKey.Q:
+                        Letter = UpperCase ? "Q" : "q"; break;
+                    case ConsoleKey.R:
+                        Letter = UpperCase ? "R" : "r"; break;
+                    case ConsoleKey.S:
+                        Letter = UpperCase ? "S" : "s"; break;
+                    case ConsoleKey.T:
+                        Letter = UpperCase ? "T" : "t"; break;
+                    case ConsoleKey.U:
+                        Letter = UpperCase ? "U" : "u"; break;
+                    case ConsoleKey.V:
+                        Letter = UpperCase ? "V" : "v"; break;
+                    case ConsoleKey.W:
+                        Letter = UpperCase ? "W" : "w"; break;
+                    case ConsoleKey.X:
+                        Letter = UpperCase ? "X" : "x"; break;
+                    case ConsoleKey.Y:
+                        Letter = UpperCase ? "Y" : "y"; break;
+                    case ConsoleKey.Z:
+                        Letter = UpperCase ? "Z" : "z"; break;
+
+
+                    case ConsoleKey.D1:
+                        Letter = UpperCase ? "!" : "1"; break;
+                    case ConsoleKey.D2:
+                        Letter = UpperCase ? "@" : "2"; break;
+                    case ConsoleKey.D3:
+                        Letter = UpperCase ? "#" : "3"; break;
+                    case ConsoleKey.D4:
+                        Letter = UpperCase ? "$" : "4"; break;
+                    case ConsoleKey.D5:
+                        Letter = UpperCase ? "%" : "5"; break;
+                    case ConsoleKey.D6:
+                        Letter = UpperCase ? "^" : "6"; break;
+                    case ConsoleKey.D7:
+                        Letter = UpperCase ? "&" : "7"; break;
+                    case ConsoleKey.D8:
+                        Letter = UpperCase ? "*" : "8"; break;
+                    case ConsoleKey.D9:
+                        Letter = UpperCase ? "(" : "9"; break;
+                    case ConsoleKey.D0:
+                        Letter = UpperCase ? ")" : "0"; break;
+
+
+                    case ConsoleKey.OemMinus:
+                        Letter = UpperCase ? "_" : "-"; break;
+                    case ConsoleKey.OemPlus:
+                        Letter = UpperCase ? "+" : "="; break;
+                    case ConsoleKey.Oem7:
+                        Letter = UpperCase ? "\"" : "'"; break;
+                    case ConsoleKey.OemComma:
+                        Letter = UpperCase ? "<" : ","; break;
+                    case ConsoleKey.OemPeriod:
+                        Letter = UpperCase ? ">" : "."; break;
+                    case ConsoleKey.Oem2:
+                        Letter = UpperCase ? ":" : ";"; break;
+
+
+                    case ConsoleKey.LeftArrow:
+                        LeftArrow = true; break;
+
+                    case ConsoleKey.RightArrow:
+                        RightArrow = true; break;
+
+                    default: continue;
+                }
+
+                if (keyPressed != ConsoleKey.Spacebar && keyPressed != ConsoleKey.Backspace)
+                    Typed++;
+
+                ReadLine += Letter;
+                Console.Write(Letter);
+
             } while (keyPressed != ConsoleKey.Enter && keyPressed != ConsoleKey.LeftArrow && keyPressed != ConsoleKey.RightArrow);
         }
         public void Call(ref string ReadLine, ref bool LeftArrowFunction, ref bool RightArrowFunction)
