@@ -105,7 +105,7 @@ namespace PasswordToKeyGame
 
                             Console.Write(" ");
 
-                            SpaceBar[Column] += ++WordLength;
+                            SpaceBar[Column] = ++WordLength;
                             Column++;
 
                             SpaceBar.Add(0);
