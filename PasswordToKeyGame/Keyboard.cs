@@ -124,6 +124,9 @@ namespace PasswordToKeyGame
                 if (CapsLock && !Shift || Shift && !CapsLock)
                     UpperCase = true;
 
+                Shift = false;
+                Ctrl = false;
+
                 switch (keyPressed)
                 {
                     case ConsoleKey.A:
@@ -231,8 +234,6 @@ namespace PasswordToKeyGame
                 if (keyPressed != ConsoleKey.Spacebar && keyPressed != ConsoleKey.Backspace)
                     WordLength++;
 
-                Shift = false;
-                Ctrl = false;
             } while (keyPressed != ConsoleKey.Enter && keyPressed != ConsoleKey.LeftArrow && keyPressed != ConsoleKey.RightArrow);
         }
         public void Call(ref string ReadLine, ref bool LeftArrowFunction, ref bool RightArrowFunction)
