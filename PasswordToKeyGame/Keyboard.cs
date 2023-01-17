@@ -22,17 +22,17 @@ namespace PasswordToKeyGame
         private static void KeyBoardFunction(ref string ReadLine, int x, int y)
         {
             bool Ctrl = false, Shift = false, CapsLock;
-            int Column = 0, WordLength = 0;
+            int Column = 0, Typed = 0;
 
-            List<int> SpaceBar = new List<int>();
+            List<int> WordLength = new List<int>();
 
             ConsoleKey keyPressed;
 
             do
             {
-                if (SpaceBar.Count == 0)
+                if (WordLength.Count == 0)
                 {
-                    SpaceBar.Add(WordLength);
+                    WordLength.Add(Typed);
                     Column = 0;
                 }
 
@@ -60,37 +60,37 @@ namespace PasswordToKeyGame
                             {
                                 Console.SetCursorPosition(x, y);
 
-                                SpaceBar[Column] += WordLength;
+                                WordLength[Column] += Typed;
 
-                                if (SpaceBar[Column] == 0 && Column != 0)
+                                if (WordLength[Column] == 0 && Column != 0)
                                 {
-                                    SpaceBar.RemoveAt(Column);
+                                    WordLength.RemoveAt(Column);
                                     Column--;
                                 }
 
                                 if (Ctrl)
                                 {
-                                    ReadLine = ReadLine.Substring(0, ReadLine.Length - SpaceBar[Column]);
+                                    ReadLine = ReadLine.Substring(0, ReadLine.Length - WordLength[Column]);
                                     Console.Write(ReadLine);
 
-                                    for (int i = 0; i < SpaceBar[Column]; i++)
+                                    for (int i = 0; i < WordLength[Column]; i++)
                                     {
                                         Console.Write(" ");
                                     }
 
-                                    SpaceBar.RemoveAt(Column);
-                                    WordLength = 0;
+                                    WordLength.RemoveAt(Column);
+                                    Typed = 0;
                                     Column--;
                                 }
                                 else
                                 {
                                     ReadLine = ReadLine.Substring(0, ReadLine.Length - 1);
 
-                                    if (SpaceBar[Column] != 0)
-                                        SpaceBar[Column]--;
+                                    if (WordLength[Column] != 0)
+                                        WordLength[Column]--;
 
-                                    if (WordLength != 0)
-                                        WordLength--;
+                                    if (Typed != 0)
+                                        Typed--;
 
                                     Console.Write(ReadLine + " ");
                                 }
@@ -105,11 +105,11 @@ namespace PasswordToKeyGame
 
                             Console.Write(" ");
 
-                            SpaceBar[Column] = ++WordLength;
+                            WordLength[Column] = ++Typed;
                             Column++;
 
-                            SpaceBar.Add(0);
-                            WordLength = 0;
+                            WordLength.Add(0);
+                            Typed = 0;
                         }
                         break;
                 }
@@ -232,7 +232,7 @@ namespace PasswordToKeyGame
                 Console.Write(Letter);
 
                 if (keyPressed != ConsoleKey.Spacebar && keyPressed != ConsoleKey.Backspace)
-                    WordLength++;
+                    Typed++;
 
             } while (keyPressed != ConsoleKey.Enter && keyPressed != ConsoleKey.LeftArrow && keyPressed != ConsoleKey.RightArrow);
         }
