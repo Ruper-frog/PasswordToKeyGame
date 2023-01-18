@@ -234,7 +234,7 @@ namespace PasswordToKeyGame
                 if (keyPressed != ConsoleKey.Spacebar && keyPressed != ConsoleKey.Backspace)
                     Typed++;
 
-            } while (keyPressed != ConsoleKey.Enter && keyPressed != ConsoleKey.LeftArrow && keyPressed != ConsoleKey.RightArrow);
+            } while (keyPressed != ConsoleKey.Enter && !LeftArrow && !RightArrow);
         }
         public void Call(ref string ReadLine, ref bool LeftArrowFunction, ref bool RightArrowFunction)
         {
