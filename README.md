@@ -15,7 +15,7 @@ Also as in a normal website, you have the ability to go through the pages by get
 1. Display that is in charge of the main page
 2. Keyboard that suppose to imitate the Console.ReadLine by using Console.ReadKey
 
-## For saving the data the file is using a database that holds all of the data.
+## For saving the data, the file is using a database that holds all of the data.
 
 # Things that I had to deal with and how I dealt with them
 1.  
