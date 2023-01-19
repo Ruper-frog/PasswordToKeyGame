@@ -30,7 +30,7 @@ namespace PasswordToKeyGame
 
             string LastKey = "";
 
-            bool LastKeyProblem = true;
+            bool LastKeyProblem = false;
 
             ConsoleKey keyPressed;
 
@@ -41,14 +41,14 @@ namespace PasswordToKeyGame
 
                 CapsLock = Console.CapsLock;
 
+                if (LastKey == "Spacebar")
+                    LastKeyProblem = true;
+
+                else if (LastKey == "Backspace" && Ctrl)
+                    LastKeyProblem = true;
+
                 if ((keyInfo.Modifiers & ConsoleModifiers.Control) != 0)
                     Ctrl = true;
-
-                if (LastKey == "Backspace")
-                    LastKeyProblem = true;
-
-                else if (LastKey == "Spacebar" && Ctrl)
-                    LastKeyProblem = true;
 
                     switch (keyPressed)
                     {
