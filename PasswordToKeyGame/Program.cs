@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Data.OleDb;
 using System.Threading;
-using System.Media;
-using System.Collections.Generic;
 
 namespace PasswordToKeyGame
 {
@@ -11,7 +10,7 @@ namespace PasswordToKeyGame
     {
         static string ToPush, Reader, UserName;
 
-        static int SelectedIndex;
+        static int SelectedIndex, BackwardsEmpty = 0, ForwardsEmpty = 0;
 
         static Stack Backwards = new Stack();
         static Stack Forwards = new Stack();
@@ -69,15 +68,22 @@ namespace PasswordToKeyGame
             if (Left)
             {
                 if (Backwards.Count != 0)
+                {
+                    BackwardsEmpty = 0;
                     LeftArrow();
+                }
 
                 else
                 {
-                    Console.Clear();
+                    BackwardsEmpty++;
 
-                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    if (BackwardsEmpty == 3)
+                    {
+                        Console.Clear();
 
-                    Console.WriteLine(@"
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+
+                        Console.WriteLine(@"
            ██╗   ██╗ ██████╗ ██╗   ██╗    ███╗   ██╗███████╗███████╗██████╗     ████████╗ ██████╗
            ╚██╗ ██╔╝██╔═══██╗██║   ██║    ████╗  ██║██╔════╝██╔════╝██╔══██╗    ╚══██╔══╝██╔═══██╗
             ╚████╔╝ ██║   ██║██║   ██║    ██╔██╗ ██║█████╗  █████╗  ██║  ██║       ██║   ██║   ██║
@@ -85,12 +91,14 @@ namespace PasswordToKeyGame
               ██║   ╚██████╔╝╚██████╔╝    ██║ ╚████║███████╗███████╗██████╔╝       ██║   ╚██████╔╝
               ╚═╝    ╚═════╝  ╚═════╝     ╚═╝  ╚═══╝╚══════╝╚══════╝╚═════╝        ╚═╝    ╚═════╝
  
-           ██████╗██╗  ██╗ ██████╗  ██████╗ ███████╗███████╗    ███████╗██╗██████╗ ███████╗████████╗
-          ██╔════╝██║  ██║██╔═══██╗██╔═══██╗██╔════╝██╔════╝    ██╔════╝██║██╔══██╗██╔════╝╚══██╔══╝
-          ██║     ███████║██║   ██║██║   ██║███████╗█████╗      █████╗  ██║██████╔╝███████╗   ██║  
-          ██║     ██╔══██║██║   ██║██║   ██║╚════██║██╔══╝      ██╔══╝  ██║██╔══██╗╚════██║   ██║  
-          ╚██████╗██║  ██║╚██████╔╝╚██████╔╝███████║███████╗    ██║     ██║██║  ██║███████║   ██║  
-           ╚═════╝╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚══════╝╚══════╝    ╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝   ╚═╝  
+          ██████╗██╗  ██╗ ██████╗  ██████╗ ███████╗███████╗    ███████╗██╗██████╗ ███████╗████████╗██╗
+         ██╔════╝██║  ██║██╔═══██╗██╔═══██╗██╔════╝██╔════╝    ██╔════╝██║██╔══██╗██╔════╝╚══██╔══╝██║
+         ██║     ███████║██║   ██║██║   ██║███████╗█████╗      █████╗  ██║██████╔╝███████╗   ██║   ██║
+         ██║     ██╔══██║██║   ██║██║   ██║╚════██║██╔══╝      ██╔══╝  ██║██╔══██╗╚════██║   ██║   ╚═╝
+         ╚██████╗██║  ██║╚██████╔╝╚██████╔╝███████║███████╗    ██║     ██║██║  ██║███████║   ██║   ██╗
+          ╚═════╝╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚══════╝╚══════╝    ╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝   ╚═╝   ╚═╝
+                                                                                             
+
                                                                                          
                                                                                          
                                                                                          
@@ -100,8 +108,10 @@ namespace PasswordToKeyGame
                                                                                          
                                                                                          
 ");
-                    Thread.Sleep(3000);
+                        Thread.Sleep(3000);
 
+                        BackwardsEmpty = 0;
+                    }
                     Reader = ToPush;
                     StackFunction();
                 }
@@ -110,15 +120,22 @@ namespace PasswordToKeyGame
             else if (Right)
             {
                 if (Forwards.Count != 0)
+                {
+                    ForwardsEmpty = 0;
                     RightArrow();
+                }
 
                 else
                 {
-                    Console.Clear();
+                    ForwardsEmpty++;
 
-                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    if (ForwardsEmpty == 3)
+                    {
+                        Console.Clear();
 
-                    Console.WriteLine(@"
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+
+                        Console.WriteLine(@"
 
 ████████╗██╗  ██╗██╗███████╗    ██╗███████╗    ████████╗██╗  ██╗███████╗    ███╗   ███╗ ██████╗ ███████╗████████╗
 ╚══██╔══╝██║  ██║██║██╔════╝    ██║██╔════╝    ╚══██╔══╝██║  ██║██╔════╝    ████╗ ████║██╔═══██╗██╔════╝╚══██╔══╝
@@ -146,8 +163,10 @@ namespace PasswordToKeyGame
                                                                                                            
                                                                                                            
 ");
-                    Thread.Sleep(3000);
+                        Thread.Sleep(3000);
 
+                        ForwardsEmpty = 0;
+                    }
                     Reader = ToPush;
                     StackFunction();
                 }
