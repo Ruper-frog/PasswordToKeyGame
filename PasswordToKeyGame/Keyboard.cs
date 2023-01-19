@@ -34,6 +34,7 @@ namespace PasswordToKeyGame
                 {
                     WordLength.Add(Typed);
                     Column = 0;
+                    Typed = 0;
                 }
 
                 ConsoleKeyInfo keyInfo = Console.ReadKey(true);
@@ -79,8 +80,8 @@ namespace PasswordToKeyGame
                                     }
 
                                     WordLength.RemoveAt(Column);
-                                    Typed = 0;
                                     Column--;
+                                    Typed = 0;
                                 }
                                 else
                                 {
@@ -89,8 +90,7 @@ namespace PasswordToKeyGame
                                     if (WordLength[Column] != 0)
                                         WordLength[Column]--;
 
-                                    if (Typed != 0)
-                                        Typed--;
+                                    Typed = 0;
 
                                     Console.Write(ReadLine + " ");
                                 }
