@@ -94,7 +94,6 @@ namespace PasswordToKeyGame
 
                                     Console.Write(ReadLine + " ");
                                 }
-
                                 Console.SetCursorPosition(x + ReadLine.Length, y);
                             }
                         }
@@ -105,7 +104,7 @@ namespace PasswordToKeyGame
 
                             Console.Write(" ");
 
-                            WordLength[Column] = ++Typed;
+                            WordLength[Column] += ++Typed;
                             Column++;
 
                             WordLength.Add(0);
