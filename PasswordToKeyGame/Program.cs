@@ -17,21 +17,6 @@ namespace PasswordToKeyGame
         static Stack Forwards = new Stack();
 
         static bool Left = false, Right = false;
-        static void FindKeyName()
-        {
-            ConsoleKeyInfo KeyInfo;
-            bool cont = true;
-
-            while (cont == true)
-            {
-                KeyInfo = Console.ReadKey();
-                Console.WriteLine();
-                Console.WriteLine(KeyInfo.Key + " Was Pressed");
-
-                if (KeyInfo.Key == ConsoleKey.Escape)
-                    cont = false;
-            }
-        }
         static void RunKeyboardClass(ref string readLine, int x_Axis, int y_Axis)
         {
             Keyboard KeyboardClass = new Keyboard(readLine, x_Axis, y_Axis);
@@ -480,136 +465,6 @@ namespace PasswordToKeyGame
 
             MainMenu();
         }
-        static void UPDATEtry()
-        {
-            string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=""C:\Users\USER\source\repos\Visual Studio\Visual Studio Documents\Access\UserName and Passowrd.accdb""";
-            OleDbConnection connection = new OleDbConnection(connectionString);
-            OleDbCommand command = new OleDbCommand("", connection);
-
-            connection.Open();
-            command.CommandText = $"UPDATE UserNameAndPassword SET [Password] = 'IGotIt' WHERE ID = 1";
-
-            command.ExecuteNonQuery();
-        }
-        static void INSERTtry()
-        {
-            string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=""C:\Users\USER\source\repos\Visual Studio\Visual Studio Documents\Access\UserName and Passowrd.accdb""";
-            OleDbConnection connection = new OleDbConnection(connectionString);
-            OleDbCommand command = new OleDbCommand("", connection);
-
-            connection.Open();
-            command.CommandText = $"INSERT INTO UserNameAndPassword ([UserName], [Password]) VALUES ('Noam', 'Boom')";
-
-            command.ExecuteNonQuery();
-        }
-        static void UserNameAndPasswordMakingSomePasswords()
-        {
-            string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=""C:\Users\USER\source\repos\Visual Studio\Visual Studio Documents\Access\UserName and Passowrd.accdb""";
-            OleDbConnection connection = new OleDbConnection(connectionString);
-            OleDbCommand command = new OleDbCommand("", connection);
-
-            connection.Open();
-
-            command.CommandText = $"SELECT * FROM UserNameAndPassword";
-
-            OleDbDataReader reader = command.ExecuteReader();
-
-            List<string> IDNum = new List<string>();
-
-            int Column = 0;
-
-            while (reader.Read())
-            {
-                IDNum[Column] = reader.GetString(0);
-                Column++;
-            }
-
-            connection.Close();
-
-            connection.Open();
-
-            Random random = new Random();
-
-            int Start, Stop;
-
-            int[] Char = new int[2];
-
-            string Print, Print1 = "";
-
-            for (int j = 1; j <= IDNum.Count; j++)
-            {
-                Print1 = "";
-
-                for (int i = 0; i < 30; i++)
-                {
-                    Char[0] = random.Next(1, 5);
-
-                    switch (Char[0])
-                    {
-                        case 1:
-                            {
-                                Start = 97;
-                                Stop = 123;
-                            }
-                            break;
-                        case 2:
-                            {
-                                Start = 65;
-                                Stop = 92;
-                            }
-                            break;
-                        case 3:
-                            {
-                                Start = 48;
-                                Stop = 58;
-                            }
-                            break;
-                        case 4:
-                            {
-                                Start = 35;
-                                Stop = 39;
-                            }
-                            break;
-
-                        default:
-                            {
-                                Start = 0;
-                                Stop = 0;
-                            }
-                            break;
-                    }
-
-                    Char[1] = random.Next(Start, Stop);
-
-                    Print = Convert.ToString(Convert.ToChar(Char[1]));
-
-                    Print1 = Print1 + Print;
-                }
-                command.CommandText = $"UPDATE UserNameAndPassword SET [Password] = '{Print1}' WHERE ID = {IDNum[j]}";
-                command.ExecuteNonQuery();
-
-                Console.WriteLine(Print1);
-            }
-        }
-        static void MDB_Type_File()
-        {
-            string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=""C:\Users\USER\source\repos\Visual Studio\Visual Studio Documents\Access\worldcup.mdb""";
-            OleDbConnection connection = new OleDbConnection(connectionString);
-            OleDbCommand command = new OleDbCommand("", connection);
-
-            connection.Open();
-            command.CommandText = "Select DISTINCT HomeTeamName FROM WorldCupMatches";
-            OleDbDataReader reader = command.ExecuteReader();
-
-            string country;
-
-            while (reader.Read())
-            {
-                country = reader.GetString(0);
-
-                Console.WriteLine(country);
-            }
-        }
         static void ACCDB_Type_File(string CommandText, bool ReadOrNot, ref bool FoundIt)
         {
             string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=""C:\Users\ruper\source\repos\Visual Studio\Visual Studio Documents\Access\UserName and Passowrd.accdb""";
@@ -822,6 +677,167 @@ namespace PasswordToKeyGame
 
             } while (true);
         }
+        static void Main(string[] args)
+        {
+            //SoundPlayer AngryBirds = new SoundPlayer(soundLocation: @"C:\Users\USER\source\repos\Visual Studio\Visual Studio Documents\Audio\Angry Birds Theme Song.wav");
+            //AngryBirds.PlayLooping();
+
+            MainMenu();
+
+            Console.Clear();
+
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+
+            Console.WriteLine("It was nice to have you with us, come again");
+            Console.ResetColor();
+        }
+
+        //Dumpster 
+        static void UPDATEtry()
+        {
+            string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=""C:\Users\USER\source\repos\Visual Studio\Visual Studio Documents\Access\UserName and Passowrd.accdb""";
+            OleDbConnection connection = new OleDbConnection(connectionString);
+            OleDbCommand command = new OleDbCommand("", connection);
+
+            connection.Open();
+            command.CommandText = $"UPDATE UserNameAndPassword SET [Password] = 'IGotIt' WHERE ID = 1";
+
+            command.ExecuteNonQuery();
+        }
+        static void INSERTtry()
+        {
+            string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=""C:\Users\USER\source\repos\Visual Studio\Visual Studio Documents\Access\UserName and Passowrd.accdb""";
+            OleDbConnection connection = new OleDbConnection(connectionString);
+            OleDbCommand command = new OleDbCommand("", connection);
+
+            connection.Open();
+            command.CommandText = $"INSERT INTO UserNameAndPassword ([UserName], [Password]) VALUES ('Noam', 'Boom')";
+
+            command.ExecuteNonQuery();
+        }
+        static void UserNameAndPasswordMakingSomePasswords()
+        {
+            string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=""C:\Users\USER\source\repos\Visual Studio\Visual Studio Documents\Access\UserName and Passowrd.accdb""";
+            OleDbConnection connection = new OleDbConnection(connectionString);
+            OleDbCommand command = new OleDbCommand("", connection);
+
+            connection.Open();
+
+            command.CommandText = $"SELECT * FROM UserNameAndPassword";
+
+            OleDbDataReader reader = command.ExecuteReader();
+
+            List<string> IDNum = new List<string>();
+
+            int Column = 0;
+
+            while (reader.Read())
+            {
+                IDNum[Column] = reader.GetString(0);
+                Column++;
+            }
+
+            connection.Close();
+
+            connection.Open();
+
+            Random random = new Random();
+
+            int Start, Stop;
+
+            int[] Char = new int[2];
+
+            string Print, Print1 = "";
+
+            for (int j = 1; j <= IDNum.Count; j++)
+            {
+                Print1 = "";
+
+                for (int i = 0; i < 30; i++)
+                {
+                    Char[0] = random.Next(1, 5);
+
+                    switch (Char[0])
+                    {
+                        case 1:
+                            {
+                                Start = 97;
+                                Stop = 123;
+                            }
+                            break;
+                        case 2:
+                            {
+                                Start = 65;
+                                Stop = 92;
+                            }
+                            break;
+                        case 3:
+                            {
+                                Start = 48;
+                                Stop = 58;
+                            }
+                            break;
+                        case 4:
+                            {
+                                Start = 35;
+                                Stop = 39;
+                            }
+                            break;
+
+                        default:
+                            {
+                                Start = 0;
+                                Stop = 0;
+                            }
+                            break;
+                    }
+
+                    Char[1] = random.Next(Start, Stop);
+
+                    Print = Convert.ToString(Convert.ToChar(Char[1]));
+
+                    Print1 = Print1 + Print;
+                }
+                command.CommandText = $"UPDATE UserNameAndPassword SET [Password] = '{Print1}' WHERE ID = {IDNum[j]}";
+                command.ExecuteNonQuery();
+
+                Console.WriteLine(Print1);
+            }
+        }
+        static void MDB_Type_File()
+        {
+            string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=""C:\Users\USER\source\repos\Visual Studio\Visual Studio Documents\Access\worldcup.mdb""";
+            OleDbConnection connection = new OleDbConnection(connectionString);
+            OleDbCommand command = new OleDbCommand("", connection);
+
+            connection.Open();
+            command.CommandText = "Select DISTINCT HomeTeamName FROM WorldCupMatches";
+            OleDbDataReader reader = command.ExecuteReader();
+
+            string country;
+
+            while (reader.Read())
+            {
+                country = reader.GetString(0);
+
+                Console.WriteLine(country);
+            }
+        }
+        static void FindKeyName()
+        {
+            ConsoleKeyInfo KeyInfo;
+            bool cont = true;
+
+            while (cont == true)
+            {
+                KeyInfo = Console.ReadKey();
+                Console.WriteLine();
+                Console.WriteLine(KeyInfo.Key + " Was Pressed");
+
+                if (KeyInfo.Key == ConsoleKey.Escape)
+                    cont = false;
+            }
+        }
         static void PaintGame()
         {
             ConsoleKeyInfo keyinfo;
@@ -878,20 +894,6 @@ namespace PasswordToKeyGame
                 if (penDown) Console.Write(s);
 
             }
-        }
-        static void Main(string[] args)
-        {
-            //SoundPlayer AngryBirds = new SoundPlayer(soundLocation: @"C:\Users\USER\source\repos\Visual Studio\Visual Studio Documents\Audio\Angry Birds Theme Song.wav");
-            //AngryBirds.PlayLooping();
-
-            MainMenu();
-
-            Console.Clear();
-
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-
-            Console.WriteLine("It was nice to have you with us, come again");
-            Console.ResetColor();
         }
     }
 }
