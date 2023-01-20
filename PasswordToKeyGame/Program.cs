@@ -894,5 +894,4 @@ namespace PasswordToKeyGame
             Console.ResetColor();
         }
     }
-    // this is a bad way u fucking cunt
 }
