@@ -261,12 +261,18 @@ namespace PasswordToKeyGame
                                                              
 ");
 
-            Console.Write(UserNameString);
-
-            string NewUserName = "";
+            string NewUserName;
 
             while (true)
             {
+                NewUserName = "";
+
+                Console.SetCursorPosition(0, 15);
+
+                Console.Write(UserNameString + "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+
+                Console.SetCursorPosition(UserNameString.Length, 15);
+
                 RunKeyboardClass(ref NewUserName, UserNameString.Length, 15); ;
 
                 if (Left || Right)
@@ -276,7 +282,7 @@ namespace PasswordToKeyGame
                     CheckMe();
                     return;
                 }
-                if (!String.IsNullOrEmpty(NewUserName))
+                if (!String.IsNullOrEmpty(NewUserName) && !UserNameClient(NewUserName.Trim( ), true))
                     break;
             }
 
@@ -376,7 +382,7 @@ namespace PasswordToKeyGame
 
                 if (!String.IsNullOrEmpty(UserName))
                 {
-                    if (UserNameClient(UserName) == false)
+                    if (UserNameClient(UserName, false) == false)
                         NumberOfTimesHeGotTheUserNameWrong++;
                     else
                         break;
@@ -486,7 +492,7 @@ namespace PasswordToKeyGame
         }
         static void ACCDB_Type_File(string CommandText, bool ReadOrNot, ref bool FoundIt)
         {
-            string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=""C:\Users\ruper\source\repos\Visual Studio\Visual Studio Documents\Access\UserName and Passowrd.accdb""";
+            string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=""C:\Users\USER\source\repos\Visual Studio\Visual Studio Documents\Access\UserName and Passowrd.accdb""";
             OleDbConnection connection = new OleDbConnection(connectionString);
             OleDbCommand command = new OleDbCommand("", connection);
 
@@ -503,17 +509,24 @@ namespace PasswordToKeyGame
             else
                 command.ExecuteNonQuery();
         }
-        static bool UserNameClient(string UserName)
+        static bool UserNameClient(string UserName, bool NewUserName)
         {
             bool FoundIt = false;
             ACCDB_Type_File($"SELECT UserName FROM UserNameAndPassword WHERE UserName = '{UserName}'", true, ref FoundIt);
 
-            if (!FoundIt)
+            if (!NewUserName)
             {
-                Console.Write("\nyou've enterd the wrong UserName");
+                if (!FoundIt)
+                {
+                    Console.Write("\nyou've enterd the wrong UserName");
+                    Thread.Sleep(2000);
+                }
+            }
+            else if (FoundIt)
+            {
+                Console.Write("\nThe user name already exists");
                 Thread.Sleep(2000);
             }
-
             return FoundIt;
         }
         static bool Password(string UserName, string PasswordClient)
