@@ -47,14 +47,6 @@ namespace PasswordToKeyGame
 
                 switch (keyPressed)
                 {
-                    case ConsoleKey.RightArrow:
-                        RightArrow = true;
-                        break;
-
-                    case ConsoleKey.LeftArrow:
-                        LeftArrow = true;
-                        break;
-
                     case ConsoleKey.Backspace:
                         {
                             if (!string.IsNullOrEmpty(ReadLine))
@@ -75,9 +67,7 @@ namespace PasswordToKeyGame
                                     Console.Write(ReadLine);
 
                                     for (int i = 0; i < WordLength[Column]; i++)
-                                    {
                                         Console.Write(" ");
-                                    }
 
                                     WordLength.RemoveAt(Column);
                                     Column--;
@@ -111,6 +101,11 @@ namespace PasswordToKeyGame
                             Typed = 0;
                         }
                         break;
+                    case ConsoleKey.RightArrow:
+                        RightArrow = true; break;
+
+                    case ConsoleKey.LeftArrow:
+                        LeftArrow = true; break;
                 }
 
                 if ((keyInfo.Modifiers & ConsoleModifiers.Shift) != 0)
