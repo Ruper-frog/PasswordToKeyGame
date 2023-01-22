@@ -30,6 +30,15 @@ namespace PasswordToKeyGame
 
             do
             {
+                if (ReadLine.Length >= 2)
+                {
+                    if (ReadLine.Substring(ReadLine.Length - 2, 2).CompareTo("  ") == 0)
+                    {
+                        WordLength.RemoveAt(Column);
+                        Column--;
+                        Typed = 0;
+                    }
+                }
                 if (WordLength.Count == 0)
                 {
                     WordLength.Add(Typed);
