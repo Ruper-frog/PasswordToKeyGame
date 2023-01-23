@@ -570,7 +570,7 @@ namespace PasswordToKeyGame
         {
             Console.SetCursorPosition(x, y);
 
-            PaintTheSkeyInBlwo(Num, p);
+            PaintTheSkeyInBlue(Num, p);
         }
         static void MyKeyGame()
         {
@@ -680,13 +680,13 @@ namespace PasswordToKeyGame
                 {
                     Num[0] = random.Next(1, 15);
 
-                    PaintTheSkeyInBlwo(Num[0], "");
+                    PaintTheSkeyInBlue(Num[0], "");
                 }
 
                 else if (KeyInfo.Key == ConsoleKey.W)
                 {
                     Num[0] = 15;
-                    PaintTheSkeyInBlwo(Num[0], "");
+                    PaintTheSkeyInBlue(Num[0], "");
                 }
 
                 else if (KeyInfo.Key == ConsoleKey.Escape)
