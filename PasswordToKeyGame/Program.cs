@@ -238,8 +238,6 @@ namespace PasswordToKeyGame
         {
             Console.Clear();
 
-            bool FoundIt = false;
-
             string UserNameString = "ple enter your user name --> ", PasswordString = "pls enter your password --> ";
 
             Console.ForegroundColor = ConsoleColor.DarkGreen;
@@ -307,7 +305,7 @@ namespace PasswordToKeyGame
                     break;
             }
 
-            ACCDB_Type_File($"INSERT INTO UserNameAndPassword ([UserName], [Password]) VALUES ('{NewUserName}', '{NewPassword}')", false, ref FoundIt);
+            ACCDB_Type_File($"INSERT INTO UserNameAndPassword ([UserName], [Password]) VALUES ('{NewUserName}', '{NewPassword}')", false);
 
             Console.Write("\nYou've Registered successfully");
 
@@ -435,8 +433,6 @@ namespace PasswordToKeyGame
 
             string UserNameString = "pls Enter your new password --> ";
 
-            bool FoundIt = false;
-
             Console.ForegroundColor = ConsoleColor.DarkGray;
 
             Console.WriteLine(@"
@@ -474,7 +470,7 @@ namespace PasswordToKeyGame
                 if (!String.IsNullOrEmpty(NewPassword))
                     break;
             }
-            ACCDB_Type_File($"UPDATE UserNameAndPassword SET [Password] = '{NewPassword}' WHERE UserName = '{UserName}'", false, ref FoundIt);
+            ACCDB_Type_File($"UPDATE UserNameAndPassword SET [Password] = '{NewPassword}' WHERE UserName = '{UserName}'", false);
 
             Console.Write("\nyour Password was reset");
             Thread.Sleep(1000);
@@ -490,7 +486,7 @@ namespace PasswordToKeyGame
 
             MainMenu();
         }
-        static void ACCDB_Type_File(string CommandText, bool ReadOrNot, ref bool FoundIt)
+        static bool ACCDB_Type_File(string CommandText, bool ReadOrNot)
         {
             string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=""C:\Users\USER\source\repos\Visual Studio\Visual Studio Documents\Access\UserName and Passowrd.accdb""";
             OleDbConnection connection = new OleDbConnection(connectionString);
@@ -504,15 +500,17 @@ namespace PasswordToKeyGame
                 OleDbDataReader reader = command.ExecuteReader();
 
                 while (reader.Read())
-                    FoundIt = true;
+                    return true;
             }
             else
                 command.ExecuteNonQuery();
+            return false;
         }
         static bool UserNameClient(string UserName, bool NewUserName)
         {
-            bool FoundIt = false;
-            ACCDB_Type_File($"SELECT UserName FROM UserNameAndPassword WHERE UserName = '{UserName}'", true, ref FoundIt);
+            bool FoundIt;
+
+            FoundIt = ACCDB_Type_File($"SELECT UserName FROM UserNameAndPassword WHERE UserName = '{UserName}'", true);
 
             if (!NewUserName)
             {
@@ -531,9 +529,9 @@ namespace PasswordToKeyGame
         }
         static bool Password(string UserName, string PasswordClient)
         {
-            bool FoundIt = false;
+            bool FoundIt;
 
-            ACCDB_Type_File($"SELECT UserName, Password FROM UserNameAndPassword WHERE UserName = '{UserName}' AND Password = '{PasswordClient}'", true, ref FoundIt);
+            FoundIt = ACCDB_Type_File($"SELECT UserName, Password FROM UserNameAndPassword WHERE UserName = '{UserName}' AND Password = '{PasswordClient}'", true);
 
             if (FoundIt)
             {
