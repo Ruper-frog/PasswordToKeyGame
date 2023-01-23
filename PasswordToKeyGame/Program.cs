@@ -559,7 +559,7 @@ namespace PasswordToKeyGame
             }
             return FoundIt;
         }
-        static void PaintTheSkeyInBlwo(int Num, string p)
+        static void PaintTheSkeyInBlue(int Num, string p)
         {
             if (Num != 0)
                 Console.ForegroundColor = (ConsoleColor)Num;
