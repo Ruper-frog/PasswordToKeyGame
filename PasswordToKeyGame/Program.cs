@@ -191,7 +191,7 @@ namespace PasswordToKeyGame
 ";
             Console.WriteLine(prompt);
 
-            string[] options = { "Register ", "Sign in", "Exit" };
+            string[] options = { "Register", "Sign in", "Exit" };
             Menu mainMenu = new Menu(options);
             SelectedIndex = mainMenu.Run();
 

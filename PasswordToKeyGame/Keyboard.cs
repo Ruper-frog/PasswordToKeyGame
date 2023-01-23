@@ -6,10 +6,13 @@ namespace PasswordToKeyGame
     internal class Keyboard
     {
         private string ReadLine;
+
         private int X_Axis;
         private int Y_Axis;
+
         private static bool LeftArrow = false;
         private static bool RightArrow = false;
+
         public Keyboard(string readLine, int x_Axis, int y_Axis)
         {
             LeftArrow = false;
