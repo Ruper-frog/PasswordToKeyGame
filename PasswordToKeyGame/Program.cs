@@ -420,7 +420,7 @@ namespace PasswordToKeyGame
 
                 if (!String.IsNullOrEmpty(PasswordClient))
                 {
-                    if (Password(UserName, PasswordClient) == false)
+                    if (Program.PasswordClient(UserName, PasswordClient) == false)
                         NumberOfTimesHeGotThePasswordWrong++;
                     else
                         break;
@@ -527,7 +527,7 @@ namespace PasswordToKeyGame
             }
             return FoundIt;
         }
-        static bool Password(string UserName, string PasswordClient)
+        static bool PasswordClient(string UserName, string PasswordClient)
         {
             bool FoundIt;
 
