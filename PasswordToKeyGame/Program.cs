@@ -278,7 +278,7 @@ namespace PasswordToKeyGame
 
                 Console.SetCursorPosition(UserNameString.Length, Y);
 
-                RunKeyboardClass(ref NewUserName, UserNameString.Length, Console.CursorTop); ;
+                RunKeyboardClass(ref NewUserName, UserNameString.Length, Y); ;
 
                 if (Left || Right)
                 {
@@ -379,7 +379,7 @@ namespace PasswordToKeyGame
 
                 Console.SetCursorPosition(UserNameString.Length, Y);
 
-                RunKeyboardClass(ref UserName, UserNameString.Length, Console.CursorTop);
+                RunKeyboardClass(ref UserName, UserNameString.Length, Y);
 
                 if (Left || Right)
                 {
@@ -422,7 +422,7 @@ namespace PasswordToKeyGame
 
                 PasswordClient = "";
 
-                RunKeyboardClass(ref PasswordClient, PasswordString.Length, Console.CursorTop);
+                RunKeyboardClass(ref PasswordClient, PasswordString.Length, Y);
 
                 if (Left || Right)
                 {
