@@ -106,16 +106,11 @@ namespace PasswordToKeyGame
 
                             Console.Write(" ");
 
-                            WordLength[Column] = ++Typed;
+                            WordLength[Column] += ++Typed;
+                            Column++;
 
-                            if (WordLength[Column] != 0 && Column != 0)
-                            {
-                                Column++;
-
-                                WordLength.Add(0);
-                                Typed = 0;
-                            }
-                            else Typed++;
+                            WordLength.Add(0);
+                            Typed = 0;
                         }
                         break;
                     case ConsoleKey.RightArrow:
