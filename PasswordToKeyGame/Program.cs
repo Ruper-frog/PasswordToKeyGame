@@ -16,10 +16,10 @@ namespace PasswordToKeyGame
         static Stack Forwards = new Stack();
 
         static bool Left = false, Right = false;
-        static void RunKeyboardClass(ref string readLine, int x_Axis, int y_Axis)
+        static void RunKeyboardClass(ref string ReadLine, int X_Axis, int Y_Axis)
         {
-            Keyboard KeyboardClass = new Keyboard(readLine, x_Axis, y_Axis);
-            KeyboardClass.Call(ref readLine, ref Left, ref Right);
+            Keyboard KeyboardClass = new Keyboard(ReadLine, X_Axis, Y_Axis);
+            KeyboardClass.Call(ref ReadLine, ref Left, ref Right);
         }
         static void StackFunction()
         {
@@ -273,7 +273,7 @@ namespace PasswordToKeyGame
 
                 Console.SetCursorPosition(UserNameString.Length, 15);
 
-                RunKeyboardClass(ref NewUserName, UserNameString.Length, 15); ;
+                RunKeyboardClass(ref NewUserName, UserNameString.Length, Console.CursorTop); ;
 
                 if (Left || Right)
                 {
@@ -294,7 +294,7 @@ namespace PasswordToKeyGame
 
             while (true)
             {
-                RunKeyboardClass(ref NewPassword, PasswordString.Length, 17); ;
+                RunKeyboardClass(ref NewPassword, PasswordString.Length, Console.CursorTop); ;
 
                 if (Left || Right)
                 {
@@ -370,7 +370,7 @@ namespace PasswordToKeyGame
 
                 Console.SetCursorPosition(UserNameString.Length, 16);
 
-                RunKeyboardClass(ref UserName, UserNameString.Length, 16);
+                RunKeyboardClass(ref UserName, UserNameString.Length, Console.CursorTop);
 
                 if (Left || Right)
                 {
@@ -410,7 +410,7 @@ namespace PasswordToKeyGame
 
                 PasswordClient = "";
 
-                RunKeyboardClass(ref PasswordClient, PasswordString.Length, 18);
+                RunKeyboardClass(ref PasswordClient, PasswordString.Length, Console.CursorTop);
 
                 if (Left || Right)
                 {
@@ -462,7 +462,7 @@ namespace PasswordToKeyGame
 
             while (true)
             {
-                RunKeyboardClass(ref NewPassword, UserNameString.Length, 24);
+                RunKeyboardClass(ref NewPassword, UserNameString.Length, Console.CursorTop);
 
                 if (Left || Right)
                 {

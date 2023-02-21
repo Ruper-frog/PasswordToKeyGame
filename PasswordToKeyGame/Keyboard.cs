@@ -13,14 +13,14 @@ namespace PasswordToKeyGame
         private static bool LeftArrow = false;
         private static bool RightArrow = false;
 
-        public Keyboard(string readLine, int x_Axis, int y_Axis)
+        public Keyboard(string ReadLine, int X_Axis, int Y_Axis)
         {
             LeftArrow = false;
             RightArrow = false;
 
-            ReadLine = readLine;
-            X_Axis = x_Axis;
-            Y_Axis = y_Axis;
+            this.ReadLine = ReadLine;
+            this.X_Axis = X_Axis;
+            this.Y_Axis = Y_Axis;
         }
         private static void KeyBoardFunction(ref string ReadLine, int x, int y)
         {
@@ -33,15 +33,15 @@ namespace PasswordToKeyGame
 
             do
             {
-                if (ReadLine.Length >= 2)
-                {
-                    if (ReadLine.Substring(ReadLine.Length - 2, 2).CompareTo("  ") == 0)
-                    {
-                        WordLength.RemoveAt(Column);
-                        Column--;
-                        Typed = 0;
-                    }
-                }
+                /*if (ReadLine.Length >= 2)
+                //{
+                //    if (ReadLine.Substring(ReadLine.Length - 2, 2).CompareTo("  ") == 0)
+                //    {
+                //        WordLength.RemoveAt(Column);
+                //        Column--;
+                //        Typed = 0;
+                //    }
+                }*/
                 if (WordLength.Count == 0)
                 {
                     WordLength.Add(Typed);
