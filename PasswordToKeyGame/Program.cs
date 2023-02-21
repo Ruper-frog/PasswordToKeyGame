@@ -12,6 +12,8 @@ namespace PasswordToKeyGame
 
         static int SelectedIndex, BackwardsEmpty = 0, ForwardsEmpty = 0;
 
+        static int X, Y;
+
         static Stack Backwards = new Stack();
         static Stack Forwards = new Stack();
 
@@ -261,17 +263,20 @@ namespace PasswordToKeyGame
                                                              
 ");
 
+            X = Console.CursorLeft;
+            Y = Console.CursorTop;
+
             string NewUserName;
 
             while (true)
             {
                 NewUserName = "";
 
-                Console.SetCursorPosition(0, 15);
+                Console.SetCursorPosition(X, Y);
 
                 Console.Write(UserNameString + "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
 
-                Console.SetCursorPosition(UserNameString.Length, 15);
+                Console.SetCursorPosition(UserNameString.Length, Y);
 
                 RunKeyboardClass(ref NewUserName, UserNameString.Length, Console.CursorTop); ;
 
@@ -350,6 +355,10 @@ namespace PasswordToKeyGame
                                                
                                                
 ");
+
+            X = Console.CursorLeft;
+            Y= Console.CursorTop;
+
             while (NumberOfTimesHeGotTheUserNameWrong != 4)
             {
                 if (NumberOfTimesHeGotTheUserNameWrong == 3)
@@ -360,15 +369,15 @@ namespace PasswordToKeyGame
                     Backwards.Push("SignInMenu");
 
                     RegisterMenu();
-                    break;
+                    return;
                 }
                 UserName = "";
 
-                Console.SetCursorPosition(0, 16);
+                Console.SetCursorPosition(X, Y);
 
                 Console.Write(UserNameString + "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
 
-                Console.SetCursorPosition(UserNameString.Length, 16);
+                Console.SetCursorPosition(UserNameString.Length, Y);
 
                 RunKeyboardClass(ref UserName, UserNameString.Length, Console.CursorTop);
 
@@ -388,6 +397,9 @@ namespace PasswordToKeyGame
                         break;
                 }
             }
+            X = 0;
+            Y = Console.CursorTop + 2;
+
             while (NumberOfTimesHeGotThePasswordWrong != 4)
             {
                 if (NumberOfTimesHeGotThePasswordWrong == 3)
@@ -398,13 +410,13 @@ namespace PasswordToKeyGame
                     Backwards.Push("SignInMenu");
 
                     UpdateMenu();
-                    break;
+                    return;
                 }
-                Console.SetCursorPosition(0, 18);
+                Console.SetCursorPosition(X, Y);
 
                 Console.Write(PasswordString + "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
 
-                Console.SetCursorPosition(28, 18);
+                Console.SetCursorPosition(PasswordString.Length, Y);
 
                 string PasswordClient = "";
 
@@ -446,9 +458,6 @@ namespace PasswordToKeyGame
 ██║   ██║██╔═══╝ ██║  ██║██╔══██║   ██║   ██╔══╝    ██╔═══╝ ██╔══██║╚════██║╚════██║██║███╗██║██║   ██║██╔══██╗██║  ██║
 ╚██████╔╝██║     ██████╔╝██║  ██║   ██║   ███████╗  ██║     ██║  ██║███████║███████║╚███╔███╔╝╚██████╔╝██║  ██║██████╔╝
  ╚═════╝ ╚═╝     ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚══════╝  ╚═╝     ╚═╝  ╚═╝╚══════╝╚══════╝ ╚══╝╚══╝  ╚═════╝ ╚═╝  ╚═╝╚═════╝
-                                                                                                                         
-                                                                                                                         
-                                                                                                                         
                                                                                                                          
                                                                                                                          
                                                                                                                          
