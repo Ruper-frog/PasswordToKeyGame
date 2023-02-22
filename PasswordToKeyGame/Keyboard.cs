@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 
 namespace PasswordToKeyGame
 {
@@ -106,11 +107,7 @@ namespace PasswordToKeyGame
 
                             Console.Write(" ");
 
-                            WordLength[Column] += ++Typed;
-                            Column++;
-
-                            WordLength.Add(0);
-                            Typed = 0;
+                            Typed++;
                         }
                         break;
                     case ConsoleKey.RightArrow:
@@ -233,7 +230,17 @@ namespace PasswordToKeyGame
 
                     default: continue;
                 }
+                if (ReadLine.Length != 0)
+                {
+                    if (ReadLine[ReadLine.Length - 1] == ' ' && !Letter.Equals(' '))
+                    {
+                        WordLength[Column] += Typed;
+                        Column++;
 
+                        WordLength.Add(0);
+                        Typed = 0;
+                    }
+                }
                 ReadLine += Letter;
                 Console.Write(Letter);
 
