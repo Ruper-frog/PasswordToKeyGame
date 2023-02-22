@@ -34,12 +34,10 @@ namespace PasswordToKeyGame
                     ForegroundColor = ConsoleColor.White;
                     BackgroundColor = ConsoleColor.Black; 
                 }
-
                 WriteLine($"<< {currentOption} >>");
             }
             ResetColor();
         }
-
         public int Run()
         { 
             ConsoleKey keyPressed;
@@ -78,6 +76,7 @@ namespace PasswordToKeyGame
                     break;
                 }
             } while (keyPressed != ConsoleKey.Enter);
+
             return SelectedIndex;
         }
     }
