@@ -20,7 +20,7 @@ namespace PasswordToKeyGame
         static bool Left = false, Right = false;
         static void RunKeyboardClass(ref string ReadLine, int X_Axis, int Y_Axis)
         {
-            Keyboard KeyboardClass = new Keyboard(ReadLine, X_Axis, Y_Axis);
+            Keyboard KeyboardClass = new Keyboard(X_Axis, Y_Axis);
             KeyboardClass.Call(ref ReadLine, ref Left, ref Right);
         }
         static void StackFunction()
