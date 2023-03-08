@@ -6,8 +6,8 @@ namespace PasswordToKeyGame
 {
     internal class Keyboard
     {
-        private int X_Axis;
-        private int Y_Axis;
+        private static int X_Axis;
+        private static int Y_Axis;
 
         private static bool LeftArrow = false;
         private static bool RightArrow = false;
@@ -17,10 +17,10 @@ namespace PasswordToKeyGame
             LeftArrow = false;
             RightArrow = false;
 
-            this.X_Axis = X_Axis;
-            this.Y_Axis = Y_Axis;
+            Keyboard.X_Axis = X_Axis;
+            Keyboard.Y_Axis = Y_Axis;
         }
-        private static void KeyBoardFunction(ref string ReadLine, int x, int y)
+        private static void KeyBoardFunction(ref string ReadLine)
         {
             bool Ctrl = false, Shift = false, CapsLock;
             int Column = 0, Typed = 0;
@@ -51,7 +51,7 @@ namespace PasswordToKeyGame
                         {
                             if (!string.IsNullOrEmpty(ReadLine))
                             {
-                                Console.SetCursorPosition(x, y);
+                                Console.SetCursorPosition(X_Axis, Y_Axis);
 
                                 WordLength[Column] += Typed;
 
@@ -83,7 +83,7 @@ namespace PasswordToKeyGame
 
                                     Console.Write(ReadLine + " ");
                                 }
-                                Console.SetCursorPosition(x + ReadLine.Length, y);
+                                Console.SetCursorPosition(X_Axis + ReadLine.Length, Y_Axis);
                             }
                         }
                         break;
@@ -236,7 +236,7 @@ namespace PasswordToKeyGame
         }
         public void Call(ref string ReadLine, ref bool LeftArrowFunction, ref bool RightArrowFunction)
         {
-            KeyBoardFunction(ref ReadLine, X_Axis, Y_Axis);
+            KeyBoardFunction(ref ReadLine);
 
             LeftArrowFunction = LeftArrow;
             RightArrowFunction = RightArrow;
