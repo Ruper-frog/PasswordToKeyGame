@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlTypes;
 
 namespace PasswordToKeyGame
 {
@@ -22,7 +21,7 @@ namespace PasswordToKeyGame
         }
         private static void KeyBoardFunction(ref string ReadLine)
         {
-            bool Ctrl = false, Shift = false, CapsLock;
+            bool Ctrl = false, Shift = false, CapsLock, BackspaceBlocker;
             int Column = 0, Typed = 0;
 
             List<int> WordLength = new List<int>();
@@ -114,6 +113,7 @@ namespace PasswordToKeyGame
 
                 Shift = false;
                 Ctrl = false;
+                BackspaceBlocker = false;
 
                 switch (keyPressed)
                 {
@@ -193,10 +193,14 @@ namespace PasswordToKeyGame
                         Letter = UpperCase ? ")" : "0"; break;
 
 
+                    case ConsoleKey.Oem3:
+                        Letter = UpperCase ? "~" : "`"; break;
                     case ConsoleKey.OemMinus:
                         Letter = UpperCase ? "_" : "-"; break;
                     case ConsoleKey.OemPlus:
                         Letter = UpperCase ? "+" : "="; break;
+                    case ConsoleKey.Oem1:
+                        Letter = UpperCase ? ":" : ";"; break;
                     case ConsoleKey.Oem7:
                         Letter = UpperCase ? "\"" : "'"; break;
                     case ConsoleKey.OemComma:
@@ -204,7 +208,7 @@ namespace PasswordToKeyGame
                     case ConsoleKey.OemPeriod:
                         Letter = UpperCase ? ">" : "."; break;
                     case ConsoleKey.Oem2:
-                        Letter = UpperCase ? ":" : ";"; break;
+                        Letter = UpperCase ? "?" : "/"; break;
 
 
                     case ConsoleKey.LeftArrow:
@@ -217,7 +221,14 @@ namespace PasswordToKeyGame
                 }
                 if (ReadLine.Length != 0)
                 {
-                    if (ReadLine[ReadLine.Length - 1] == ' ' && !Letter.Equals(' '))
+                    if (((ReadLine[ReadLine.Length - 1] < 'A' || ReadLine[ReadLine.Length - 1] > 'Z') && 
+                        (ReadLine[ReadLine.Length - 1] < 'a' || ReadLine[ReadLine.Length - 1] > 'z') && 
+                        (ReadLine[ReadLine.Length - 1] < '0' || ReadLine[ReadLine.Length - 1] > '9')) && 
+                        !((Letter[0] < 'A' || Letter[0] > 'Z') && (Letter[0] < 'a' || Letter[0] > 'z') &&
+                        (Letter[0] < '0' || Letter[0] > '9')))
+                        BackspaceBlocker = true;
+
+                    if (ReadLine[ReadLine.Length - 1] == ' ' && !Letter.Equals(' ') || BackspaceBlocker)
                     {
                         WordLength[Column] += Typed;
                         Column++;
