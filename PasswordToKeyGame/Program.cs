@@ -513,7 +513,7 @@ namespace PasswordToKeyGame
 
                 connection.Open();
             }
-            catch (Exception E)
+            catch (Exception)
             {
                 connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=""C:\Users\ruper\source\repos\Visual Studio\Visual Studio Documents\Access\UserName and Passowrd.accdb""";
 
