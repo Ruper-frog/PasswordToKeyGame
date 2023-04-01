@@ -363,7 +363,7 @@ namespace PasswordToKeyGame
             {
                 if (NumberOfTimesHeGotTheUserNameWrong == 3)
                 {
-                    Console.WriteLine("\nyou've tried to meny times pls go register first");
+                    Console.WriteLine("\nyou've tried to many times pls go register first");
                     Thread.Sleep(4000);
 
                     Backwards.Push("SignInMenu");
@@ -404,7 +404,7 @@ namespace PasswordToKeyGame
             {
                 if (NumberOfTimesHeGotThePasswordWrong == 3)
                 {
-                    Console.WriteLine("\nyou've tried to meny times pls go Update your Password");
+                    Console.WriteLine("\nyou've tried to many times pls go Update your Password");
                     Thread.Sleep(4000);
 
                     Backwards.Push("SignInMenu");
@@ -467,7 +467,7 @@ namespace PasswordToKeyGame
 
                 else
                 {
-                    Console.Write("\nyou've enterd the wrong Password");
+                    Console.Write("\nyou've entered the wrong Password");
                     Thread.Sleep(2000);
                 }
                 return FoundIt;
@@ -492,7 +492,7 @@ namespace PasswordToKeyGame
 
                 Height = Console.WindowHeight;
 
-                Display(0, 19, Num[0], "C - Clear Screan, P - Change pen, R - Change Color to a random Color, W - Change color to Wite, U - Pen Up, D - Pen Down,B - Carriage Return, Escape - Exit");
+                Display(0, 19, Num[0], "C - Clear Screen, P - Change pen, R - Change Color to a random Color, W - Change color to Wite, U - Pen Up, D - Pen Down,B - Carriage Return, Escape - Exit");
 
                 do
                 {
