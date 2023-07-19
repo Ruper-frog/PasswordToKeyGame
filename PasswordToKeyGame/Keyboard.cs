@@ -104,7 +104,7 @@ namespace PasswordToKeyGame
                 if ((keyInfo.Modifiers & ConsoleModifiers.Shift) != 0)
                     Shift = true;
 
-                char? Letter = null;
+                char ? Letter = null;
 
                 bool UpperCase = false;
 

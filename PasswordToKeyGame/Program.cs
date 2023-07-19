@@ -674,7 +674,7 @@ namespace PasswordToKeyGame
             OleDbCommand command;
             try
             {
-                connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=""C:\Users\USER\source\repos\Visual Studio\Visual Studio Documents\Access\UserName and Passowrd.accdb""";
+                connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=""C:\Users\USER\source\repos\Visual Studio\C#\Visual Studio Documents\Access\UserName and Passowrd.accdb""";
                 connection = new OleDbConnection(connectionString);
                 command = new OleDbCommand("", connection);
 
