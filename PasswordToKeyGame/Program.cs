@@ -474,6 +474,8 @@ namespace PasswordToKeyGame
             }
             void MyKeyGame()
             {
+                Console.CursorVisible = true;
+
                 Random random = new Random();
 
                 ConsoleKeyInfo KeyInfo;
@@ -738,6 +740,8 @@ namespace PasswordToKeyGame
         {
             //SoundPlayer AngryBirds = new SoundPlayer(soundLocation: @"C:\Users\USER\source\repos\Visual Studio\Visual Studio Documents\Audio\Angry Birds Theme Song.wav");
             //AngryBirds.PlayLooping();
+
+            Console.CursorVisible = false;
 
             MainMenu();
 
