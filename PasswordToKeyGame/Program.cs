@@ -178,6 +178,8 @@ namespace PasswordToKeyGame
         {
             Console.Clear();
 
+            Console.CursorVisible = false;
+
             Console.ForegroundColor = ConsoleColor.DarkRed;
             string prompt = @"
 ▓█████▄  ██▀███   ▄▄▄       █     █░ ██▓ ███▄    █   ▄████      ▄████  ▄▄▄       ███▄ ▄███▓▓█████
@@ -239,6 +241,8 @@ namespace PasswordToKeyGame
         static void RegisterMenu()
         {
             Console.Clear();
+
+            Console.CursorVisible = true;
 
             bool FoundIt = false;
 
@@ -332,6 +336,8 @@ namespace PasswordToKeyGame
         static void SignInMenu()
         {
             Console.Clear();
+
+            Console.CursorVisible = true;
 
             int NumberOfTimesHeGotTheUserNameWrong = 0, NumberOfTimesHeGotThePasswordWrong = 0;
 
@@ -614,6 +620,8 @@ namespace PasswordToKeyGame
         {
             Console.Clear();
 
+            Console.CursorVisible = true;
+
             string UserNameString = "pls Enter your new password --> ";
 
             bool FoundIt = false;
@@ -740,8 +748,6 @@ namespace PasswordToKeyGame
         {
             //SoundPlayer AngryBirds = new SoundPlayer(soundLocation: @"C:\Users\USER\source\repos\Visual Studio\Visual Studio Documents\Audio\Angry Birds Theme Song.wav");
             //AngryBirds.PlayLooping();
-
-            Console.CursorVisible = false;
 
             MainMenu();
 
